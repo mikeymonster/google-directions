@@ -1,0 +1,82 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<style>
+    .mikey {
+        color: red;
+    }
+
+    .providers {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .providerInfo {
+        display: flex;
+    }
+
+    .transport {
+    }
+
+    .transitDistance {
+        font-size: small;
+        font-weight: bold;
+    }
+
+    transitDescription {
+        font-size: small;
+    }
+
+</style>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with <span class="mikey">ASP.NET Core</span></a>.</p>
+
+    <section class="providers">
+
+        @* See https://tl-marketing-and-communication.herokuapp.com/v10/student/find *@
+        <article class="providerInfo">
+            <h3>Provider name</h3>
+            <h4>POST CODE | Town</h4>
+
+            <div>
+                <div class="transport">
+                    <img src="~/images/transport.png" alt="" />
+                    <p class="transitDistance">1 mile</p>
+                </div>
+                <p class="transitDescription">from the nearest bus stop</p>
+
+                <div class="transport">
+                    <img src="~/images/subway.png" alt="" />
+                    <span class="transitDistance">0.4 miles</span>
+                </div>
+                <p class="transitDescription">from the nearest train station</p>
+            </div>
+        </article>
+        
+        <article class="providerInfo">
+            <h3>Provider name 2</h3>
+            <h4>POST CODE | Town</h4>
+
+            <div>
+                <div class="transport">
+                    <img src="~/images/transport.png" alt="" />
+                    <p class="transitDistance">1 mile</p>
+                </div>
+                <p class="transitDescription">from the nearest bus stop</p>
+
+                <div class="transport">
+                    <img src="~/images/subway.png" alt="" />
+                    <span class="transitDistance">0.4 miles</span>
+                </div>
+                <p class="transitDescription">from the nearest train station</p>
+            </div>
+        </article>
+
+    </section>
+
+</div>
