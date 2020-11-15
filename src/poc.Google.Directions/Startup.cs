@@ -1,4 +1,6 @@
 using System;
+using System.Net;
+using System.Net.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,8 +32,8 @@ namespace poc.Google.Directions
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            RegisterServices(services);
             RegisterHttpClients(services);
+            RegisterServices(services);
 
             var mvcBuilder = services.AddRazorPages();
 
@@ -77,7 +79,26 @@ namespace poc.Google.Directions
 
         protected virtual void RegisterHttpClients(IServiceCollection services)
         {
-            //services.AddHttpClient<IDirectionsService, DirectionsService>();
+            services.AddHttpClient<IDirectionsService, DirectionsService>();
+            return;
+            services.AddHttpClient<IDirectionsService, DirectionsService>(
+                    nameof(DirectionsService),
+                    client =>
+                    {
+                        //client.BaseAddress = new Uri("http://www.xxx.org");
+                        //client.DefaultRequestHeaders.Add("Accept", "application/json");
+                    }
+                )
+                .ConfigurePrimaryHttpMessageHandler(messageHandler =>
+                {
+                    var handler = new HttpClientHandler();
+
+                    if (handler.SupportsAutomaticDecompression)
+                    {
+                        handler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+                    }
+                    return handler;
+                });
         }
 
         protected virtual void RegisterServices(IServiceCollection services)
