@@ -1,4 +1,6 @@
-﻿using poc.Google.Directions.Models;
+﻿using System.Net.Http;
+using NSubstitute;
+using poc.Google.Directions.Models;
 using poc.Google.Directions.Services;
 
 namespace poc.Google.Directions.Tests.Builders
@@ -7,14 +9,18 @@ namespace poc.Google.Directions.Tests.Builders
     {
         private readonly DirectionsService _directionsService;
 
-        public DirectionsServiceBuilder(ApiSettings settings = null)
+        public DirectionsServiceBuilder(
+            ApiSettings settings = null,
+            IHttpClientFactory httpClientFactory = null)
         {
             settings ??= new ApiSettings
             {
                 GoogleApiKey = "test_key"
             };
 
-            _directionsService = new DirectionsService(settings);
+            httpClientFactory ??= Substitute.For<IHttpClientFactory>();
+            
+            _directionsService = new DirectionsService(settings, httpClientFactory);
         }
 
         public DirectionsService Build() => _directionsService;

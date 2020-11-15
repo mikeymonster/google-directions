@@ -1,7 +1,10 @@
-﻿namespace poc.Google.Directions.Interfaces
+﻿using System.Threading.Tasks;
+using poc.Google.Directions.Models;
+
+namespace poc.Google.Directions.Interfaces
 {
     public interface IDirectionsService
     {
-        public Models.Directions GetDirections();
+        public Task<Journey> GetDirections(Location from, Location to);
     }
 }
