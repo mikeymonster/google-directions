@@ -16,6 +16,11 @@
 
     @foreach (var provider in Model.Providers)
     {
+        var journey = Model.Journeys[provider.Postcode];
+        var distance = Math.Round(journey.Distance, 1);
+        var distanceFromBusStop = Math.Round(journey.DistanceFromNearestBusStop, 1);
+        var distanceFromTrainStop = Math.Round(journey.DistanceFromNearestTrainStop, 1);
+
         <article class="provider">
             <section class="provider-info">
                 <header class="provider-info-header">
@@ -23,16 +28,18 @@
                     <h4>POST CODE | Town</h4>
                     <h4>@provider.Postcode | @provider.Town</h4>
                 </header>
+
                 <div class="journey-info">
+                    <p class="distance">@distance @(Math.Abs(distance - 1) < 0.1 ? "mile" : "miles") away</p>
                     <div class="transport">
                         <img src="~/images/transport.png" alt="" />
-                        <p class="transit-distance">1 mile</p>
+                        <p class="transit-distance">@($"{distanceFromBusStop:0.#}") @(Math.Abs(distanceFromBusStop -1) < 0.1 ? "mile" : "miles")</p>
                     </div>
                     <p class="transit-description">from the nearest bus stop</p>
 
                     <div class="transport">
                         <img src="~/images/subway.png" alt="" />
-                        <span class="transit-distance">0.4 miles</span>
+                        <p class="transit-distance">@($"{distanceFromTrainStop:0.#}") @(Math.Abs(distanceFromTrainStop - 1) < 0.1 ? "mile" : "miles")</p>
                     </div>
                     <p class="transit-description">from the nearest train station</p>
                 </div>
@@ -42,9 +49,13 @@
                 <details>
                     <summary>Journey details:</summary>
                     <ul>
-                        <li>Point 1</li>
-                        <li>Point 2</li>
-                        <li>Point 3</li>
+                        @if (journey.Steps != null)
+                        {
+                            foreach (var journeyStep in journey.Steps)
+                            {
+                                <li>@journeyStep</li>
+                            }
+                        }
                     </ul>
                 </details>
             </section>

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using poc.Google.Directions.Interfaces;
 using poc.Google.Directions.Models;
@@ -18,6 +19,7 @@ namespace poc.Google.Directions.Pages
 
         public Location HomeLocation { get; private set; }
         public IList<Provider> Providers { get; private set; }
+        public IDictionary<string, Journey> Journeys { get; private set; }
 
         public IndexModel(
             IDirectionsService directionsService, 
@@ -33,8 +35,36 @@ namespace poc.Google.Directions.Pages
 
         public async Task OnGet()
         {
-            Providers = await _providerDataService.GetProviders();
             HomeLocation = await _providerDataService.GetHome();
+            Providers = (await _providerDataService.GetProviders())
+                .OrderBy(p => p.Name)
+                .ToList();
+            Journeys = new Dictionary<string, Journey>();
+            
+            foreach (var provider in Providers)
+            {
+                //Only call API for the first journey, until we know it works
+                if (Journeys.Any())
+                {
+                    Journeys.Add(provider.Postcode, new Journey
+                    {
+                        Distance = 12.0,
+                        DistanceFromNearestBusStop = 1.03,
+                        DistanceFromNearestTrainStop = 0.4,
+                        Steps = new List<string>
+                        {
+                            "Sample journey"
+                        }
+                    });
+                    continue;
+                }
+
+                var journey = await _directionsService.GetDirections(
+                    HomeLocation, 
+                    new Location { Postcode = provider.Postcode, Latitude = provider.Latitude, Longitude = provider.Longitude});
+
+                    Journeys.Add(provider.Postcode, journey);
+            }
         }
     }
 }
