@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using poc.Google.Directions.Models;
 
 namespace poc.Google.Directions.Interfaces
 {
     public interface IProviderDataService
     {
-        public Provider GetHome();
-        public IList<Provider> GetProviders();
+        public Task<Location> GetHome();
+        public Task<IList<Provider>> GetProviders();
     }
 }

@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using poc.Google.Directions.Interfaces;
+using poc.Google.Directions.Models;
 
 namespace poc.Google.Directions.Pages
 {
@@ -12,6 +15,9 @@ namespace poc.Google.Directions.Pages
         private readonly IProviderDataService _providerDataService;
 
         private readonly ILogger<IndexModel> _logger;
+
+        public Location HomeLocation { get; private set; }
+        public IList<Provider> Providers { get; private set; }
 
         public IndexModel(
             IDirectionsService directionsService, 
@@ -25,9 +31,10 @@ namespace poc.Google.Directions.Pages
             _logger = logger;
         }
 
-        public void OnGet()
+        public async Task OnGet()
         {
-
+            Providers = await _providerDataService.GetProviders();
+            HomeLocation = await _providerDataService.GetHome();
         }
     }
 }

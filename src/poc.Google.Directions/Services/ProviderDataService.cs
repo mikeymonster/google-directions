@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using poc.Google.Directions.Interfaces;
 using poc.Google.Directions.Models;
 
@@ -6,25 +7,23 @@ namespace poc.Google.Directions.Services
 {
     public class ProviderDataService : IProviderDataService
     {
-        public Provider GetHome()
+        public Task<Location> GetHome()
         {
-            return new Provider
+            return Task.FromResult(new Location
             {
-                Name = "ESFA Coventry",
                 Postcode = "CV1 2WT",
-                Town = "Coventry",
                 Longitude = -1.508122,
                 Latitude = 52.400997
-            };
+            });
         }
 
-        public IList<Provider> GetProviders()
+        public Task<IList<Provider>> GetProviders()
         {
-            return new List<Provider>
+            return Task.FromResult(new List<Provider>
             {
                 new Provider
                 {
-                    Name = "SOLIHULL COLLEGE & UNIVERSITY CENTRE",
+                    Name = "Solihull College & University Centre",
                     Postcode = "B91 1SB",
                     Town = "Solihull",
                     Longitude = -1.792148,
@@ -32,13 +31,13 @@ namespace poc.Google.Directions.Services
                 },
                 new Provider
                 {
-                    Name = "UNIVERSITY COLLEGE BIRMINGHAM",
+                    Name = "University College Birmingham",
                     Postcode = "B3 1JP",
                     Town = "Birmingham",
                     Longitude = -1.906807,
                     Latitude = 52.482263
                 }
-            };
+            } as IList<Provider>);
         }
     }
 }
