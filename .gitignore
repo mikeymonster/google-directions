@@ -351,3 +351,6 @@ MigrationBackup/
 
 # Developer settings
 appsettings.Development.json
+
+# Developer scratch files
+scratch/
