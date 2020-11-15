@@ -69,3 +69,94 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+
+/* Project styles
+-------------------------------------------------- */
+.search {
+    border: 3px solid #e6e6e6;
+    padding-bottom: 15px;
+    margin: 5px;
+    font-size: 18px;
+}
+
+.providers {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 20px;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.provider {
+    display: flex;
+    flex-direction: column;
+    border: 1.5px solid #e6e6e6;
+    margin: 5px;
+    padding-bottom: 15px;
+}
+
+.provider-info {
+    display: flex;
+    flex-direction: row;
+    -ms-align-items: flex-start;
+    -o-align-items: flex-start;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+}
+
+.provider-info-header {
+    flex-direction: column;
+}
+
+.provider-info h3 {
+    font-size: 24px;
+    padding-bottom: 15px;
+    line-height: 30px;
+    text-transform: uppercase;
+}
+
+.provider-info h4 {
+    font-size: 18px;
+    /*font-weight: bold;*/
+}
+
+.journey-info {
+    border: 1.5px solid #e6e6e6;
+    padding-bottom: 15px;
+    display: inline-table;
+    margin-left: auto;
+}
+
+.transport img {
+    width: 30px;
+    height: 30px;
+    margin: 10px 3px;
+}
+
+.transit-distance {
+    font-size: small;
+    font-weight: bold;
+}
+
+.transit-description {
+    font-size: small;
+}
+
+.journey-details {
+    flex-direction: column;
+    -webkit-align-self: stretch;
+    -o-align-self: stretch;
+    align-self: stretch;
+    width: 100%;
+}
+
+.journey-details summary {
+    font-weight: lighter;
+    font-size: 16px;
+}
+
+.journey-details ul {
+    list-style-type: none;
+}
