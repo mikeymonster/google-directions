@@ -5,78 +5,198 @@
 }
 
 <style>
-    .mikey {
-        color: red;
+    .search {
+        border: 3px solid #e6e6e6;
+        padding-bottom: 15px;
+        margin: 5px;
+        font-size: 18px;
     }
 
     .providers {
         display: flex;
         flex-direction: column;
+        background-color: white;
+        padding: 20px;
+        margin: 10px 0;
+        width: 100%;
     }
 
-    .providerInfo {
+    .provider {
         display: flex;
+        flex-direction: column;
+        border: 1.5px solid #e6e6e6;
+        margin: 5px;
+        padding-bottom: 15px;
     }
 
-    .transport {
+    .provider-info {
+        display: flex;
+        flex-direction: row;
+        -ms-align-items: flex-start;
+        -o-align-items: flex-start;
+        -webkit-align-items: flex-start;
+        align-items: flex-start;
     }
 
-    .transitDistance {
+    .provider-info-header {
+        flex-direction: column;
+    }
+
+    .provider-info h3 {
+        font-size: 24px;
+        padding-bottom: 15px;
+        line-height: 30px;
+        text-transform: uppercase;
+    }
+
+    .provider-info h4 {
+        font-size: 18px;
+        /*font-weight: bold;*/
+    }
+
+    .journey-info {
+        border: 1.5px solid #e6e6e6;
+        padding-bottom: 15px;
+        display: inline-table;
+        margin-left: auto;
+    }
+
+    .transport img {
+        width: 30px;
+        height: 30px;
+        margin: 10px 3px;
+    }
+
+    .transit-distance {
         font-size: small;
         font-weight: bold;
     }
 
-    transitDescription {
+    .transit-description {
         font-size: small;
     }
 
+    .journey-details {
+        flex-direction: column;
+        -webkit-align-self: stretch;
+        -o-align-self: stretch;
+        align-self: stretch;
+        width: 100%;
+    }
+
+    .journey-details summary {
+        font-weight: lighter;
+        font-size: 16px;
+    }
+
+    .journey-details ul {
+        list-style-type: none;
+    }
 </style>
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with <span class="mikey">ASP.NET Core</span></a>.</p>
+    <h1 class="display-4">Journey Directions POC</h1>
+</div>
 
-    <section class="providers">
+<section class="search">
+    <p>Searching from <strong>@Model.HomeLocation.Postcode</strong></p>
+</section>
 
-        @* See https://tl-marketing-and-communication.herokuapp.com/v10/student/find *@
-        <article class="providerInfo">
-            <h3>Provider name</h3>
-            <h4>POST CODE | Town</h4>
+<section class="providers">
 
-            <div>
+    @foreach (var provider in Model.Providers)
+    {
+        <article class="provider">
+            <section class="provider-info">
+                <header class="provider-info-header">
+                    <h3>@provider.Name</h3>
+                    <h4>POST CODE | Town</h4>
+                    <h4>@provider.Postcode | @provider.Town</h4>
+                </header>
+                <div class="journey-info">
+                    <div class="transport">
+                        <img src="~/images/transport.png" alt="" />
+                        <p class="transit-distance">1 mile</p>
+                    </div>
+                    <p class="transit-description">from the nearest bus stop</p>
+
+                    <div class="transport">
+                        <img src="~/images/subway.png" alt="" />
+                        <span class="transit-distance">0.4 miles</span>
+                    </div>
+                    <p class="transit-description">from the nearest train station</p>
+                </div>
+            </section>
+
+            <section class="journey-details">
+                <details>
+                    <summary>Journey details:</summary>
+                    <ul>
+                        <li>Point 1</li>
+                        <li>Point 2</li>
+                        <li>Point 3</li>
+                    </ul>
+                </details>
+            </section>
+        </article>
+    }
+
+    <hr />
+
+    @* See https://tl-marketing-and-communication.herokuapp.com/v10/student/find *@
+    <article class="provider">
+        <section class="provider-info">
+            <header class="provider-info-header">
+                <h3>Provider name</h3>
+                <h4>POST CODE | Town</h4>
+            </header>
+            <div class="journey-info">
                 <div class="transport">
                     <img src="~/images/transport.png" alt="" />
-                    <p class="transitDistance">1 mile</p>
+                    <p class="transit-distance">1 mile</p>
                 </div>
-                <p class="transitDescription">from the nearest bus stop</p>
+                <p class="transit-description">from the nearest bus stop</p>
 
                 <div class="transport">
                     <img src="~/images/subway.png" alt="" />
-                    <span class="transitDistance">0.4 miles</span>
+                    <span class="transit-distance">0.4 miles</span>
                 </div>
-                <p class="transitDescription">from the nearest train station</p>
+                <p class="transit-description">from the nearest train station</p>
             </div>
-        </article>
-        
-        <article class="providerInfo">
+        </section>
+
+        <section class="journey-details">
+            <details>
+                <summary>Journey details:</summary>
+                <ul>
+                    <li>Point 1</li>
+                    <li>Point 2</li>
+                    <li>Point 3</li>
+                </ul>
+            </details>
+        </section>
+    </article>
+
+    <article class="provider-info">
+        <header class="provider-info-header">
             <h3>Provider name 2</h3>
             <h4>POST CODE | Town</h4>
+        </header>
 
-            <div>
-                <div class="transport">
-                    <img src="~/images/transport.png" alt="" />
-                    <p class="transitDistance">1 mile</p>
-                </div>
-                <p class="transitDescription">from the nearest bus stop</p>
-
-                <div class="transport">
-                    <img src="~/images/subway.png" alt="" />
-                    <span class="transitDistance">0.4 miles</span>
-                </div>
-                <p class="transitDescription">from the nearest train station</p>
+        <div class="journey-info">
+            <div class="transport">
+                <img src="~/images/transport.png" alt="" />
+                <p class="transit-distance">1 mile</p>
             </div>
-        </article>
+            <p class="transit-description">from the nearest bus stop</p>
 
-    </section>
+            <div class="transport">
+                <img src="~/images/subway.png" alt="" />
+                <span class="transit-distance">0.4 miles</span>
+            </div>
+            <p class="transit-description">from the nearest train station</p>
+        </div>
+    </article>
 
-</div>
+</section>
+
