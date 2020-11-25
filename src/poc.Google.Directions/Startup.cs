@@ -50,6 +50,8 @@ namespace poc.Google.Directions
                     options.Preload = true;
                 });
             }
+
+            services.AddMemoryCache();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -79,7 +81,9 @@ namespace poc.Google.Directions
 
         protected virtual void RegisterHttpClients(IServiceCollection services)
         {
+            services.AddHttpClient<IPostcodeLookupService, PostcodeLookupService>();
             services.AddHttpClient<IDirectionsService, DirectionsService>();
+
             return;
             services.AddHttpClient<IDirectionsService, DirectionsService>(
                     nameof(DirectionsService),
@@ -104,9 +108,17 @@ namespace poc.Google.Directions
         protected virtual void RegisterServices(IServiceCollection services)
         {
             services.AddSingleton(ApiSettings);
+            services.AddTransient<ICacheService, CacheService>();
             services.AddTransient<IDirectionsService, DirectionsService>();
             services.AddTransient<IMagicLinkService, MagicLinkService>();
             services.AddTransient<IProviderDataService, ProviderDataService>();
+
+            services.AddTransient<IPostcodeLookupService, PostcodeLookupService>();
+            //services.AddTransient<IPostcodeLookupService>(s =>
+            //{
+            //    return new PostcodeLookupService(
+            //        ServiceProvider.GetService<IHttpClientFactory>());
+            //});
         }
     }
 }

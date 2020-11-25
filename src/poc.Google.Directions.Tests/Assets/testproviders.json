@@ -1,0 +1,30 @@
+{
+  "qualifications": {
+    "1": "Qualification 1",
+    "2": "Qualification 2",
+    "3": "Qualification 3"
+  },
+  "providers": [
+    {
+      "id": 1,
+      "name": "Abingdon and Witney College",
+      "locations": [
+        {
+          "name": "Abingdon Campus",
+          "postcode": "OX14 1GG",
+          "town": "Vale of White Horse",
+          "latitude": 51.680624,
+          "longitude": -1.28696,
+          "qualification2020": [
+            1,
+            2
+          ],
+          "qualification2021": [
+            3
+          ],
+          "website": "https://www.abingdon-witney.ac.uk/whats-new/t-levels"
+        }
+      ]
+    }
+  ]
+}

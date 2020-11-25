@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.WebUtilities;
 using poc.Google.Directions.Extensions;
 using poc.Google.Directions.Interfaces;
 using poc.Google.Directions.Models;
@@ -22,7 +21,7 @@ namespace poc.Google.Directions.Services
 
         public DirectionsService(ApiSettings settings, IHttpClientFactory httpClientFactory)
         {
-            _settings = settings;
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
@@ -65,16 +64,15 @@ namespace poc.Google.Directions.Services
 
             Debug.WriteLine($"Google response code {responseMessage.StatusCode}. Reason {responseMessage.ReasonPhrase}");
 
-            //responseMessage.EnsureSuccessStatusCode();
+            responseMessage.EnsureSuccessStatusCode();
 
             var content = await responseMessage.Content.ReadAsStringAsync();
 
-            var prettyContent = content.PrettifyJsonString();
-            Debug.WriteLine("Google response");
-            Debug.WriteLine($"{prettyContent}");
+            Debug.WriteLine($"Google response: {Environment.NewLine}{content.PrettifyJsonString()}");
 
             return new Journey
             {
+                RawJson = content,
                 Distance = 0,
                 DistanceFromNearestBusStop = 0,
                 DistanceFromNearestTrainStop = 0,

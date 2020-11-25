@@ -30,7 +30,7 @@ namespace poc.Google.Directions.Pages
             _directionsService = directionsService ?? throw new ArgumentNullException(nameof(directionsService));
             _magicLinkService = magicLinkService ?? throw new ArgumentNullException(nameof(magicLinkService));
             _providerDataService = providerDataService ?? throw new ArgumentNullException(nameof(providerDataService));
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task OnGet()
@@ -67,4 +67,50 @@ namespace poc.Google.Directions.Pages
             }
         }
     }
+
+    /*
+     *
+        private readonly ICacheService _cacheService;
+        private readonly IWebHostEnvironment _hostEnvironment;
+
+        public StudentController(
+            ICacheService cacheService,
+            IWebHostEnvironment hostEnvironment)
+        {
+            _cacheService = cacheService;
+            _hostEnvironment = hostEnvironment;
+        }
+
+    private async Task<IList<SelectListItem>> GetQualificationsAsync()
+        {
+            const int cacheExpiryInSeconds = 1800;
+            const string cacheKey = "Find_Qualifications";
+
+            var qualifications = await _cacheService.GetOrCreateAsync(cacheKey,
+                entry =>
+                {
+                    entry.SlidingExpiration = TimeSpan.FromSeconds(cacheExpiryInSeconds);
+
+                    var providersFilePath = $"{_hostEnvironment.WebRootPath}\\js\\providers.json";
+                    var jsonBytes = System.IO.File.ReadAllBytes(providersFilePath);
+
+                    using var jsonDoc = JsonDocument.Parse(jsonBytes);
+                    var root = jsonDoc.RootElement;
+
+                    var qualificationsSection =  root.GetProperty("qualifications");
+
+                    var list = qualificationsSection
+                        .EnumerateObject()
+                        //.Select(x => new {key = x.Name, val = x.Value.GetString()})
+                        //.ToDictionary(item => item.key, item => item.val);
+                        .Select(x => new SelectListItem(x.Value.GetString(), x.Name))
+                        .ToList();
+                    
+                    //return Task.FromResult<IDictionary<string, string>>(dic);
+                    return Task.FromResult(list);
+                });
+
+            return qualifications;
+        }
+     */
 }

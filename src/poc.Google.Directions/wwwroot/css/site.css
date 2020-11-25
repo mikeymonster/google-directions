@@ -1,6 +1,14 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+/*Styles from https://projects.verou.me/css3patterns/#carbon-fibre */
+body {
+    background: radial-gradient(black 15%, transparent 16%) 0 0, radial-gradient(black 15%, transparent 16%) 8px 8px, radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px, radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+    background-color: #282828;
+    background-size: 16px 16px;
+}
+
+/* Nav styles */
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -62,6 +70,7 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+
 .footer {
   position: absolute;
   bottom: 0;
@@ -70,13 +79,13 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
-
 /* Project styles
 -------------------------------------------------- */
 .search {
+    background-color: white;
     border: 3px solid #e6e6e6;
     padding-bottom: 15px;
-    margin: 5px;
+    margin: 10px 0;
     font-size: 18px;
 }
 
@@ -119,7 +128,6 @@ body {
 
 .provider-info h4 {
     font-size: 18px;
-    /*font-weight: bold;*/
 }
 
 .journey-info {
@@ -138,6 +146,12 @@ body {
         color: white;
         text-transform: lowercase;
     }
+
+google--logo {
+    max-width: 144px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .transport img {
     width: 30px;
