@@ -15,8 +15,6 @@ namespace poc.Google.Directions.Tests
 {
     public class PostcodeLookupServiceTests
     {
-        private readonly Uri _baseUri = new Uri("https://test/postcodes/api/");
-
         [Fact]
         public void PostcodeLookupService_Constructor_Guards_Against_NullParameters()
         {
@@ -29,9 +27,8 @@ namespace poc.Google.Directions.Tests
             const string postcode = "CV1 2WT";
             const string postcodeUriFragment = "postcodes/CV1%202WT";
 
-            var service = new ServiceBuilder()
-                .BuildPostcodeLookupService(
-                    _baseUri,
+            var service = new PostcodeLookupServiceBuilder()
+                .Build(
                     postcodeUriFragment,
                     new PostcodeLookupJsonBuilder());
 
@@ -45,8 +42,8 @@ namespace poc.Google.Directions.Tests
         {
             const string postcode = "S70 2YW";
             const string postcodePart = "S70%202YW";
-            var postcodeUri = new Uri(_baseUri, $"postcodes/{postcodePart}");
-            var terminatedPostcodeUri = new Uri(_baseUri, $"terminated_postcodes/{postcodePart}");
+            var postcodeUri = new Uri(PostcodeLookupService.BaseUri, $"postcodes/{postcodePart}");
+            var terminatedPostcodeUri = new Uri(PostcodeLookupService.BaseUri, $"terminated_postcodes/{postcodePart}");
 
             var builder = new PostcodeLookupJsonBuilder();
             var testHttpClientFactory = new TestHttpClientFactory();
@@ -62,10 +59,8 @@ namespace poc.Google.Directions.Tests
                 }
             };
 
-            var service = new ServiceBuilder()
-                .BuildPostcodeLookupService(
-                    _baseUri,
-                    responses);
+            var service = new PostcodeLookupServiceBuilder()
+                .Build(responses);
 
             var result = await service.GetPostcodeInfo(postcode);
 
@@ -77,8 +72,8 @@ namespace poc.Google.Directions.Tests
         {
             const string postcode = "NON CDE";
             const string postcodePart = "NON%20CDE";
-            var postcodeUri = new Uri(_baseUri, $"postcodes/{postcodePart}");
-            var terminatedPostcodeUri = new Uri(_baseUri, $"terminated_postcodes/{postcodePart}");
+            var postcodeUri = new Uri(PostcodeLookupService.BaseUri, $"postcodes/{postcodePart}");
+            var terminatedPostcodeUri = new Uri(PostcodeLookupService.BaseUri, $"terminated_postcodes/{postcodePart}");
 
             var builder = new PostcodeLookupJsonBuilder();
             var testHttpClientFactory = new TestHttpClientFactory();
@@ -95,10 +90,8 @@ namespace poc.Google.Directions.Tests
                 }
             };
 
-            var service = new ServiceBuilder()
-                .BuildPostcodeLookupService(
-                    _baseUri,
-                    responses);
+            var service = new PostcodeLookupServiceBuilder()
+                .Build(responses);
 
             var result = await service.GetPostcodeInfo(postcode);
 

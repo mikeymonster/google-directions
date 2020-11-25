@@ -9,23 +9,21 @@ using Wild.TestHelpers.HttpClient;
 namespace poc.Google.Directions.Tests.Builders
 {
     // ReSharper disable UnusedMember.Global
-    public class ServiceBuilder
+    public class PostcodeLookupServiceBuilder
     {
-        public IPostcodeLookupService BuildPostcodeLookupService(
-            Uri baseUri,
+        public IPostcodeLookupService Build(
             IHttpClientFactory httpClientFactory = null)
         {
             httpClientFactory ??= Substitute.For<IHttpClientFactory>();
 
-            return new PostcodeLookupService(baseUri, httpClientFactory);
+            return new PostcodeLookupService(httpClientFactory);
         }
 
-        public IPostcodeLookupService BuildPostcodeLookupService(
-            Uri baseUri,
+        public IPostcodeLookupService Build(
             string targetUriFragment,
             PostcodeLookupJsonBuilder dataBuilder)
         {
-            var targetUri = new Uri(baseUri, targetUriFragment);
+            var targetUri = new Uri(PostcodeLookupService.BaseUri, targetUriFragment);
 
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
             httpClientFactory
@@ -34,11 +32,10 @@ namespace poc.Google.Directions.Tests.Builders
                     .CreateHttpClient(targetUri,
                         dataBuilder.Build()));
 
-            return new PostcodeLookupService(baseUri, httpClientFactory);
+            return new PostcodeLookupService(httpClientFactory);
         }
 
-        public IPostcodeLookupService BuildPostcodeLookupService(
-            Uri baseUri,
+        public IPostcodeLookupService Build(
             IDictionary<Uri, HttpResponseMessage> responseMessages)
         {
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
@@ -47,7 +44,7 @@ namespace poc.Google.Directions.Tests.Builders
                 .Returns(new TestHttpClientFactory()
                     .CreateHttpClient(responseMessages));
 
-            return new PostcodeLookupService(baseUri, httpClientFactory);
+            return new PostcodeLookupService(httpClientFactory);
         }
     }
 }

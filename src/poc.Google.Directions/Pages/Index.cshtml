@@ -9,7 +9,12 @@
 </div>
 
 <section class="search">
-    <p>Searching from <strong>@Model.HomeLocation.Postcode</strong></p>
+    <form method="post">
+        <label asp-for="Postcode">Postcode</label>
+        <input asp-for="Postcode" placeholder="Enter a postcode" aria-label="Enter a postcode" />
+        <button id="search-button" type="submit">Search</button>
+    </form>
+    <p>Searching from <strong>@Model.Postcode</strong></p>
 </section>
 
 <section class="providers">
@@ -21,45 +26,56 @@
         var distanceFromBusStop = Math.Round(journey.DistanceFromNearestBusStop, 1);
         var distanceFromTrainStop = Math.Round(journey.DistanceFromNearestTrainStop, 1);
 
-        <article class="provider">
-            <section class="provider-info">
-                <header class="provider-info-header">
-                    <h3>@provider.Name</h3>
-                    <h4>POST CODE | Town</h4>
-                    <h4>@provider.Postcode | @provider.Town</h4>
-                </header>
+    <article class="provider">
+        <section class="provider-info">
+            <header class="provider-info-header">
+                <h3>@provider.Name</h3>
+                <h4>POST CODE | Town</h4>
+                <h4>@provider.Postcode | @provider.Town</h4>
+            </header>
 
-                <div class="journey-info">
-                    <p class="distance">@distance @(Math.Abs(distance - 1) < 0.1 ? "mile" : "miles") away</p>
-                    <div class="transport">
-                        <img src="~/images/transport.png" alt="" />
-                        <p class="transit-distance">@($"{distanceFromBusStop:0.#}") @(Math.Abs(distanceFromBusStop -1) < 0.1 ? "mile" : "miles")</p>
-                    </div>
-                    <p class="transit-description">from the nearest bus stop</p>
-
-                    <div class="transport">
-                        <img src="~/images/subway.png" alt="" />
-                        <p class="transit-distance">@($"{distanceFromTrainStop:0.#}") @(Math.Abs(distanceFromTrainStop - 1) < 0.1 ? "mile" : "miles")</p>
-                    </div>
-                    <p class="transit-description">from the nearest train station</p>
+            <div class="journey-info">
+                <p class="distance">@distance @(Math.Abs(distance - 1) < 0.1 ? "mile" : "miles") away</p>
+                <div class="transport">
+                    <img src="~/images/transport.png" alt="" />
+                    <p class="transit-distance">@($"{distanceFromBusStop:0.#}") @(Math.Abs(distanceFromBusStop -1) < 0.1 ? "mile" : "miles")</p>
                 </div>
-            </section>
+                <p class="transit-description">from the nearest bus stop</p>
 
-            <section class="journey-details">
-                <details>
-                    <summary>Journey details:</summary>
-                    <ul>
-                        @if (journey.Steps != null)
+                <div class="transport">
+                    <img src="~/images/subway.png" alt="" />
+                    <p class="transit-distance">@($"{distanceFromTrainStop:0.#}") @(Math.Abs(distanceFromTrainStop - 1) < 0.1 ? "mile" : "miles")</p>
+                </div>
+                <p class="transit-description">from the nearest train station</p>
+            </div>
+        </section>
+
+        <section class="journey-details">
+            <details>
+                <summary>Raw json:</summary>
+                <pre>
+                    <code>
+                        @journey.RawJson
+                    </code>
+                </pre>
+            </details>
+        </section>
+
+        <section class="journey-details">
+            <details>
+                <summary>Journey details:</summary>
+                <ul>
+                    @if (journey.Steps != null)
                         {
                             foreach (var journeyStep in journey.Steps)
                             {
-                                <li>@journeyStep</li>
+                    <li>@journeyStep</li>
                             }
                         }
-                    </ul>
-                </details>
-            </section>
-        </article>
+                </ul>
+            </details>
+        </section>
+    </article>
     }
     <footer>
         <img src="~/images/poweredbygoogle.png" alt="Powered by Google" class="google--logo" />

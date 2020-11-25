@@ -111,14 +111,8 @@ namespace poc.Google.Directions
             services.AddTransient<ICacheService, CacheService>();
             services.AddTransient<IDirectionsService, DirectionsService>();
             services.AddTransient<IMagicLinkService, MagicLinkService>();
-            services.AddTransient<IProviderDataService, ProviderDataService>();
-
             services.AddTransient<IPostcodeLookupService, PostcodeLookupService>();
-            //services.AddTransient<IPostcodeLookupService>(s =>
-            //{
-            //    return new PostcodeLookupService(
-            //        ServiceProvider.GetService<IHttpClientFactory>());
-            //});
+            services.AddTransient<IProviderDataService, ProviderDataService>();
         }
     }
 }

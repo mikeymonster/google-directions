@@ -21,6 +21,7 @@ namespace poc.Google.Directions.Tests
             var service = new IndexModel(
                 new DirectionsServiceBuilder().Build(),
                 new MagicLinkServiceBuilder().Build(),
+                new PostcodeLookupServiceBuilder().Build(),
                 new ProviderDataServiceBuilder().Build(),
                 Substitute.For<ILogger<IndexModel>>());
 
