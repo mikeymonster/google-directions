@@ -57,12 +57,13 @@ namespace poc.Google.Directions.Services
             uriBuilder.Append("&mode=transit");
             uriBuilder.Append("&transit_mode=bus|train");
             uriBuilder.Append($"&key={_settings.GoogleApiKey}");
-            
+
             var uri = new Uri(uriBuilder.ToString());
 
             var responseMessage = await httpClient.GetAsync(uri);
 
-            Debug.WriteLine($"Google response code {responseMessage.StatusCode}. Reason {responseMessage.ReasonPhrase}");
+            Debug.WriteLine(
+                $"Google response code {responseMessage.StatusCode}. Reason {responseMessage.ReasonPhrase}");
 
             responseMessage.EnsureSuccessStatusCode();
 
@@ -70,9 +71,16 @@ namespace poc.Google.Directions.Services
 
             Debug.WriteLine($"Google response: {Environment.NewLine}{content.PrettifyJsonString()}");
 
+            return await BuildJourneyFromJsonString(content);
+        }
+
+        public async Task<Journey> BuildJourneyFromJsonString(string json)
+        {
+            //NOTE: searched for B91 1SB but the destination in the results is B91 1SZ
+
             return new Journey
             {
-                RawJson = content,
+                RawJson = json,
                 Distance = 0,
                 DistanceFromNearestBusStop = 0,
                 DistanceFromNearestTrainStop = 0,

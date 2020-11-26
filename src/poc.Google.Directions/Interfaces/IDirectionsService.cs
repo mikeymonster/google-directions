@@ -6,5 +6,7 @@ namespace poc.Google.Directions.Interfaces
     public interface IDirectionsService
     {
         public Task<Journey> GetDirections(Location from, Location to);
+
+        public Task<Journey> BuildJourneyFromJsonString(string json);
     }
 }

@@ -10,9 +10,13 @@
 
 <section class="search">
     <form method="post">
-        <label asp-for="Postcode">Postcode</label>
-        <input asp-for="Postcode" placeholder="Enter a postcode" aria-label="Enter a postcode" />
-        <button id="search-button" type="submit">Search</button>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Postcode" class="control-label">Postcode</label>
+            <input asp-for="Postcode" class="form-control" placeholder="Enter a postcode" aria-label="Enter a postcode" />
+            <span asp-validation-for="Postcode" class="text-danger"></span>
+        </div>
+            <button id="search-button" type="submit">Search</button>
     </form>
     <p>Searching from <strong>@Model.Postcode</strong></p>
 </section>

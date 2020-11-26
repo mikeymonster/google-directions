@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using NSubstitute;
+using poc.Google.Directions.Interfaces;
 using poc.Google.Directions.Pages;
 using poc.Google.Directions.Tests.Builders;
 using Wild.TestHelpers.Extensions;
@@ -19,6 +20,7 @@ namespace poc.Google.Directions.Tests
         public void IndexModel_Does_Something()
         {
             var service = new IndexModel(
+                Substitute.For<ICacheService>(),
                 new DirectionsServiceBuilder().Build(),
                 new MagicLinkServiceBuilder().Build(),
                 new PostcodeLookupServiceBuilder().Build(),

@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using poc.Google.Directions.Interfaces;
 using poc.Google.Directions.Messages;
+using poc.Google.Directions.Models;
 
 namespace poc.Google.Directions.Services
 {
@@ -51,6 +52,20 @@ namespace poc.Google.Directions.Services
             result.Result.IsTerminatedPostcode = isTerminated;
 
             return result.Result;
+        }
+
+        public async Task<Location> GetPostcodeLocation(string postcode)
+        {
+            var result = await GetPostcodeInfo(postcode);
+
+            return result != null
+                ? new Location
+                {
+                    Postcode = result.Postcode,
+                    Latitude = result.Latitude,
+                    Longitude = result.Longitude
+                }
+                : null;
         }
 
         private static string FormatPostcode(string postcode)

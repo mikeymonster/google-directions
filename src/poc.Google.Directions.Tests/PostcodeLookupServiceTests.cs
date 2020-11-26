@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using poc.Google.Directions.Messages;
+using poc.Google.Directions.Models;
 using poc.Google.Directions.Services;
 using poc.Google.Directions.Tests.Builders;
 using Wild.TestHelpers.Extensions;
@@ -22,7 +23,7 @@ namespace poc.Google.Directions.Tests
         }
 
         [Fact]
-        public async Task PostcodeLookupService_Gets_Postcode_Successfully()
+        public async Task PostcodeLookupService_Gets_Postcode_Info_Successfully()
         {
             const string postcode = "CV1 2WT";
             const string postcodeUriFragment = "postcodes/CV1%202WT";
@@ -38,7 +39,23 @@ namespace poc.Google.Directions.Tests
         }
 
         [Fact]
-        public async Task PostcodeLookupService_Gets_Terminated_Postcode_Successfully()
+        public async Task PostcodeLookupService_Gets_Postcode_Location_Successfully()
+        {
+            const string postcode = "CV1 2WT";
+            const string postcodeUriFragment = "postcodes/CV1%202WT";
+
+            var service = new PostcodeLookupServiceBuilder()
+                .Build(
+                    postcodeUriFragment,
+                    new PostcodeLookupJsonBuilder());
+
+            var location = await service.GetPostcodeLocation(postcode);
+
+            VerifyLocation(location, "CV1 2WT", 52.400997, -1.508122);
+        }
+
+        [Fact]
+        public async Task PostcodeLookupService_Gets_Terminated_Postcode_Info_Successfully()
         {
             const string postcode = "S70 2YW";
             const string postcodePart = "S70%202YW";
@@ -68,7 +85,7 @@ namespace poc.Google.Directions.Tests
         }
 
         [Fact]
-        public async Task PostcodeLookupService_Returns_Null_For_Nonexistent_Postcode()
+        public async Task PostcodeLookupService_Returns_Null_Info_For_Nonexistent_Postcode()
         {
             const string postcode = "NON CDE";
             const string postcodePart = "NON%20CDE";
@@ -94,11 +111,49 @@ namespace poc.Google.Directions.Tests
                 .Build(responses);
 
             var result = await service.GetPostcodeInfo(postcode);
-
-            //result.Verify("S70 2YW", "53.551618", "-1.482797", true);
+            
             result.Should().BeNull();
         }
-        
+
+        [Fact]
+        public async Task PostcodeLookupService_Returns_Null_Location_For_Nonexistent_Postcode()
+        {
+            const string postcode = "NON CDE";
+            const string postcodePart = "NON%20CDE";
+            var postcodeUri = new Uri(PostcodeLookupService.BaseUri, $"postcodes/{postcodePart}");
+            var terminatedPostcodeUri = new Uri(PostcodeLookupService.BaseUri, $"terminated_postcodes/{postcodePart}");
+
+            var builder = new PostcodeLookupJsonBuilder();
+            var testHttpClientFactory = new TestHttpClientFactory();
+
+            var responses = new Dictionary<Uri, HttpResponseMessage>
+            {
+                {
+                    postcodeUri, testHttpClientFactory.CreateFakeResponse(builder.BuildNotFoundResponse(),
+                        responseCode: HttpStatusCode.NotFound)
+                },
+                {
+                    terminatedPostcodeUri, testHttpClientFactory.CreateFakeResponse(builder.BuildNotFoundResponse(),
+                        responseCode: HttpStatusCode.NotFound)
+                }
+            };
+
+            var service = new PostcodeLookupServiceBuilder()
+                .Build(responses);
+
+            var result = await service.GetPostcodeLocation(postcode);
+
+            result.Should().BeNull();
+        }
+
+        private static void VerifyLocation(Location location, string postcode, double latitude, double longitude)
+        {
+            location.Should().NotBeNull();
+            location.Postcode.Should().Be(postcode);
+            location.Latitude.Should().Be(latitude);
+            location.Longitude.Should().Be(longitude);
+        }
+
         private static void VerifyPostcodeLookupResult(PostcodeLookupResult postcodeLookupResult, string postcode, double latitude, double longitude, bool isTerminated = false)
         {
             postcodeLookupResult.Should().NotBeNull();
