@@ -18,3 +18,9 @@
 - Had this error with the key used in test: **API keys with referer restrictions cannot be used with this API.** See https://developers.google.com/maps/faq#browser-keys-blocked-error for fix.
 
 
+### TODO
+
+- Add list of journey steps to the page
+- look at bus vs train - do I need to call twice?
+- Is it ok to take the time now, or do we need the more expensive "start time" option?
+

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using poc.Google.Directions.Extensions;
 using poc.Google.Directions.Interfaces;
@@ -73,14 +74,72 @@ namespace poc.Google.Directions.Services
         {
             //NOTE: searched for B91 1SB but the destination in the results is B91 1SZ
 
-            return new Journey
+            var journey = new Journey
             {
                 RawJson = json,
                 Distance = 0,
                 DistanceFromNearestBusStop = 0,
                 DistanceFromNearestTrainStop = 0,
-                Steps = new List<string>()
+                Steps = new List<string>(),
+                Routes = new List<Route>()
             };
+
+            //TODO: Would be faster to do this from the content stream - look at this after test is working
+            //https://stu.dev/a-look-at-jsondocument/
+            //var jsonDoc = await JsonDocument.ParseAsync(await responseMessage.Content.ReadAsStreamAsync());
+
+            var jsonDoc = JsonDocument.Parse(json);
+            //var root = jsonDoc.RootElement;
+
+            //var routes = root.GetProperty("routes");
+            foreach (var routeElement in jsonDoc.RootElement.GetProperty("routes").EnumerateArray())
+            {
+                //Debug.WriteLine($"Route {routeElement.Name}");
+
+                var route = new Route { Legs = new List<Leg>() };
+                journey.Routes.Add(route);
+
+                foreach (var legElement in routeElement.GetProperty("legs").EnumerateArray())
+                {
+                    var leg = new Leg
+                    {
+                        StartAddress = legElement.GetProperty("start_address").GetString(),
+                        EndAddress = legElement.GetProperty("end_address").GetString(),
+                        Distance = legElement.GetProperty("distance").GetProperty("value").GetInt32(),
+                        DistanceString = legElement.GetProperty("distance").GetProperty("text").GetString(),
+                        Duration = legElement.GetProperty("duration").GetProperty("value").GetInt32(),
+                        DurationString = legElement.GetProperty("duration").GetProperty("text").GetString(),
+                        Steps = new List<Step>()
+                    };
+
+                    route.Legs.Add(leg);
+
+                    foreach (var stepElement in legElement.GetProperty("steps").EnumerateArray())
+                    {
+                        var step = new Step
+                        {
+                            Distance = stepElement.GetProperty("distance").GetProperty("value").GetInt32(),
+                            DistanceString = stepElement.GetProperty("distance").GetProperty("text").GetString(),
+                            Duration = stepElement.GetProperty("duration").GetProperty("value").GetInt32(),
+                            DurationString = stepElement.GetProperty("duration").GetProperty("text").GetString(),
+
+                            StartLatitude = stepElement.GetProperty("start_location").GetProperty("lat").GetDouble(),
+                            StartLongitude = stepElement.GetProperty("start_location").GetProperty("lng").GetDouble(),
+
+                            EndLatitude = stepElement.GetProperty("end_location").GetProperty("lat").GetDouble(),
+                            EndLongitude = stepElement.GetProperty("end_location").GetProperty("lng").GetDouble(),
+
+                            Instructions = stepElement.GetProperty("html_instructions").GetString(),
+                            TravelMode = stepElement.GetProperty("travel_mode").GetString(),
+
+                            Steps = new List<Step>()
+                        };
+                        leg.Steps.Add(step);
+                    }
+                }
+            }
+
+            return journey;
         }
     }
 }
