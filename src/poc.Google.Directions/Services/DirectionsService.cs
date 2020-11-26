@@ -25,11 +25,6 @@ namespace poc.Google.Directions.Services
             _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
-        public Models.Directions GetDirections()
-        {
-            return new Models.Directions();
-        }
-
         public async Task<Journey> GetDirections(Location from, Location to)
         {
             if (string.IsNullOrWhiteSpace(_settings.GoogleApiKey)) return null;
@@ -71,10 +66,10 @@ namespace poc.Google.Directions.Services
 
             Debug.WriteLine($"Google response: {Environment.NewLine}{content.PrettifyJsonString()}");
 
-            return await BuildJourneyFromJsonString(content);
+            return await BuildJourneyFromJson(content);
         }
 
-        public async Task<Journey> BuildJourneyFromJsonString(string json)
+        public async Task<Journey> BuildJourneyFromJson(string json)
         {
             //NOTE: searched for B91 1SB but the destination in the results is B91 1SZ
 

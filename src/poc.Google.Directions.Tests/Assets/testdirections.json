@@ -1,0 +1,781 @@
+{
+  "geocoded_waypoints": [
+    {
+      "geocoder_status": "OK",
+      "place_id": "ChIJn6KsErFLd0gRf6ZfVymIirI",
+      "types": [ "street_address" ]
+    },
+    {
+      "geocoder_status": "OK",
+      "place_id": "ChIJG2cyT8K5cEgRc7Ni1XmtOK0",
+      "types": [ "premise" ]
+    }
+  ],
+  "routes": [
+    {
+      "bounds": {
+        "northeast": {
+          "lat": 52.450603,
+          "lng": -1.508031
+        },
+        "southwest": {
+          "lat": 52.3935302,
+          "lng": -1.7933672
+        }
+      },
+      "copyrights": "Map data ©2020",
+      "legs": [
+        {
+          "arrival_time": {
+            "text": "12:27pm",
+            "time_zone": "Europe/London",
+            "value": 1606393633
+          },
+          "departure_time": {
+            "text": "11:18am",
+            "time_zone": "Europe/London",
+            "value": 1606389495
+          },
+          "distance": {
+            "text": "28.5 km",
+            "value": 28541
+          },
+          "duration": {
+            "text": "1 hour 9 mins",
+            "value": 4138
+          },
+          "end_address": "Halls of Residence, Blossomfield Rd, Solihull B91 1SZ, UK",
+          "end_location": {
+            "lat": 52.4098593,
+            "lng": -1.7923815
+          },
+          "start_address": "Cheylesmore House, 5 Quinton Rd, Coventry CV1 2WT, UK",
+          "start_location": {
+            "lat": 52.40135360000001,
+            "lng": -1.508031
+          },
+          "steps": [
+            {
+              "distance": {
+                "text": "0.8 km",
+                "value": 780
+              },
+              "duration": {
+                "text": "10 mins",
+                "value": 584
+              },
+              "end_location": {
+                "lat": 52.40082899999999,
+                "lng": -1.51345
+              },
+              "html_instructions": "Walk to Coventry",
+              "polyline": {
+                "points": "msy~HdpeHKnBmB}@CV?J?B@HDRH\\d@xBThAXnAz@rDBHDT?FEHs@VaBp@j@pC@JBL?LCL?HOfBGx@C\\Et@KBBF@D@BB@BBDBRDHADA?A@??C@I@E?EACRHFDBDBDDBRFB?@?BADg@@O?C?AAAAA]I@MdBs@"
+              },
+              "start_location": {
+                "lat": 52.40135360000001,
+                "lng": -1.508031
+              },
+              "steps": [
+                {
+                  "distance": {
+                    "text": "38 m",
+                    "value": 38
+                  },
+                  "duration": {
+                    "text": "1 min",
+                    "value": 24
+                  },
+                  "end_location": {
+                    "lat": 52.4014063,
+                    "lng": -1.5085857
+                  },
+                  "html_instructions": "Head \u003cb\u003ewest\u003c/b\u003e toward \u003cb\u003eQuinton Rd\u003c/b\u003e",
+                  "polyline": {
+                    "points": "msy~HdpeHKnB"
+                  },
+                  "start_location": {
+                    "lat": 52.40135360000001,
+                    "lng": -1.508031
+                  },
+                  "travel_mode": "WALKING"
+                },
+                {
+                  "distance": {
+                    "text": "65 m",
+                    "value": 65
+                  },
+                  "duration": {
+                    "text": "1 min",
+                    "value": 47
+                  },
+                  "end_location": {
+                    "lat": 52.4019603,
+                    "lng": -1.5082844
+                  },
+                  "html_instructions": "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eQuinton Rd\u003c/b\u003e",
+                  "maneuver": "turn-right",
+                  "polyline": {
+                    "points": "ysy~HtseHmB}@"
+                  },
+                  "start_location": {
+                    "lat": 52.4014063,
+                    "lng": -1.5085857
+                  },
+                  "travel_mode": "WALKING"
+                },
+                {
+                  "distance": {
+                    "text": "0.2 km",
+                    "value": 226
+                  },
+                  "duration": {
+                    "text": "3 mins",
+                    "value": 167
+                  },
+                  "end_location": {
+                    "lat": 52.40111330000001,
+                    "lng": -1.5112647
+                  },
+                  "html_instructions": "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eStoney Rd\u003c/b\u003e",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                    "points": "gwy~HvqeHCV?J?B@HDRH\\d@xBThAXnAz@rDBHDT?F"
+                  },
+                  "start_location": {
+                    "lat": 52.4019603,
+                    "lng": -1.5082844
+                  },
+                  "travel_mode": "WALKING"
+                },
+                {
+                  "distance": {
+                    "text": "91 m",
+                    "value": 91
+                  },
+                  "duration": {
+                    "text": "1 min",
+                    "value": 65
+                  },
+                  "end_location": {
+                    "lat": 52.40188509999999,
+                    "lng": -1.5116801
+                  },
+                  "html_instructions": "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eManor Rd\u003c/b\u003e",
+                  "maneuver": "turn-right",
+                  "polyline": {
+                    "points": "}qy~HjdfHEHs@VaBp@"
+                  },
+                  "start_location": {
+                    "lat": 52.40111330000001,
+                    "lng": -1.5112647
+                  },
+                  "travel_mode": "WALKING"
+                },
+                {
+                  "distance": {
+                    "text": "64 m",
+                    "value": 64
+                  },
+                  "duration": {
+                    "text": "1 min",
+                    "value": 48
+                  },
+                  "end_location": {
+                    "lat": 52.4016444,
+                    "lng": -1.5125434
+                  },
+                  "html_instructions": "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003ePark Rd\u003c/b\u003e",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                    "points": "yvy~H~ffHj@pC@JBL"
+                  },
+                  "start_location": {
+                    "lat": 52.40188509999999,
+                    "lng": -1.5116801
+                  },
+                  "travel_mode": "WALKING"
+                },
+                {
+                  "distance": {
+                    "text": "0.1 km",
+                    "value": 99
+                  },
+                  "duration": {
+                    "text": "1 min",
+                    "value": 70
+                  },
+                  "end_location": {
+                    "lat": 52.4018322,
+                    "lng": -1.5139568
+                  },
+                  "html_instructions": "Continue onto \u003cb\u003eStation Square\u003c/b\u003e",
+                  "polyline": {
+                    "points": "guy~HjlfH?LCL?HOfBGx@C\\Et@"
+                  },
+                  "start_location": {
+                    "lat": 52.4016444,
+                    "lng": -1.5125434
+                  },
+                  "travel_mode": "WALKING"
+                },
+                {
+                  "distance": {
+                    "text": "6 m",
+                    "value": 6
+                  },
+                  "duration": {
+                    "text": "1 min",
+                    "value": 5
+                  },
+                  "end_location": {
+                    "lat": 52.4018873,
+                    "lng": -1.5139797
+                  },
+                  "html_instructions": "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eEaton Rd\u003c/b\u003e",
+                  "maneuver": "turn-right",
+                  "polyline": {
+                    "points": "mvy~HfufHKB"
+                  },
+                  "start_location": {
+                    "lat": 52.4018322,
+                    "lng": -1.5139568
+                  },
+                  "travel_mode": "WALKING"
+                },
+                {
+                  "distance": {
+                    "text": "48 m",
+                    "value": 48
+                  },
+                  "duration": {
+                    "text": "1 min",
+                    "value": 36
+                  },
+                  "end_location": {
+                    "lat": 52.4015755,
+                    "lng": -1.5139678
+                  },
+                  "html_instructions": "Turn \u003cb\u003eleft\u003c/b\u003e toward \u003cb\u003eStation Square\u003c/b\u003e",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                    "points": "yvy~HjufHBF@D@BB@BBDBRDHADA?A@??C@I@E?EAC"
+                  },
+                  "start_location": {
+                    "lat": 52.4018873,
+                    "lng": -1.5139797
+                  },
+                  "travel_mode": "WALKING"
+                },
+                {
+                  "distance": {
+                    "text": "57 m",
+                    "value": 57
+                  },
+                  "duration": {
+                    "text": "1 min",
+                    "value": 42
+                  },
+                  "end_location": {
+                    "lat": 52.401188,
+                    "lng": -1.5139592
+                  },
+                  "html_instructions": "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eStation Square\u003c/b\u003e",
+                  "maneuver": "turn-right",
+                  "polyline": {
+                    "points": "{ty~HhufHRHFDBDBDDBRFB?@?BADg@"
+                  },
+                  "start_location": {
+                    "lat": 52.4015755,
+                    "lng": -1.5139678
+                  },
+                  "travel_mode": "WALKING"
+                },
+                {
+                  "distance": {
+                    "text": "27 m",
+                    "value": 27
+                  },
+                  "duration": {
+                    "text": "1 min",
+                    "value": 20
+                  },
+                  "end_location": {
+                    "lat": 52.4013489,
+                    "lng": -1.5137841
+                  },
+                  "html_instructions": "Turn \u003cb\u003eleft\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the right\u003c/div\u003e",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                    "points": "mry~HfufH@O?C?AAAAA]I"
+                  },
+                  "start_location": {
+                    "lat": 52.401188,
+                    "lng": -1.5139592
+                  },
+                  "travel_mode": "WALKING"
+                },
+                {
+                  "distance": {
+                    "text": "59 m",
+                    "value": 59
+                  },
+                  "duration": {
+                    "text": "1 min",
+                    "value": 60
+                  },
+                  "end_location": {
+                    "lat": 52.40082899999999,
+                    "lng": -1.51345
+                  },
+                  "html_instructions": "Take entrance \u003cspan class=\"location\"\u003eCoventry Rail Station\u003c/span\u003e",
+                  "polyline": {
+                    "points": "ksy~HtsfHdBs@"
+                  },
+                  "start_location": {
+                    "lat": 52.40134,
+                    "lng": -1.513709
+                  },
+                  "travel_mode": "WALKING"
+                }
+              ],
+              "travel_mode": "WALKING"
+            },
+            {
+              "distance": {
+                "text": "17.2 km",
+                "value": 17238
+              },
+              "duration": {
+                "text": "9 mins",
+                "value": 540
+              },
+              "end_location": {
+                "lat": 52.4505866,
+                "lng": -1.7253238
+              },
+              "html_instructions": "Train towards Manchester Piccadilly via Stoke-on-Trent",
+              "polyline": {
+                "points": "epy~H`rfH\\HAJIjACd@Ix@Cd@]xD?BIx@UlCC\\GbAMdBEz@GhAM~C?FMrDGfB?HGpBGhDAf@IpDCbDA|@?XCjFAtBAzB?j@?VAb@B`D?RB~DFzE@d@?TDpBDvBDhADdBBt@FxBBhAPjEPbFNfCVtFPdCNlCBXJvAHx@HfANbBFv@Dd@VbCH~@Hp@b@pE^fD`@|CBXVnBHl@@HZfCD^Jv@LfAR|ABLFj@RnBp@`Hr@jHf@bG\\jEPnCBXThDLzB@XFdAH`BLdCFfABj@Bx@HbBR~FP|EJrDLnEJ`ELvEDvANdG@^@T?VHfCD~ABnAFrBDlA@f@DtBJtDBr@Bz@FlBBtA@d@Bx@@J@l@@VB`@@d@@T@X?ZBn@?D@t@Bx@@JBrAF`C?FFjBBbAD|AHfDFtBHpCFnCFxBHzCJjELvELpEJvDFlCHjCHtCLvEF~BFbCDnBL`EDlB@TLbFFzBBhAHdDBr@@JJzDFdCFfCHfCDrBBh@DtAD|BHtCBn@HtCDrBJ`ELrEHnDJ~DHrCDxAJbFNtFDzBFtBBx@?FJfDDx@FnB@~@Bx@@z@DbC@FJnDJ`ERpG@VD|ADtB@h@HbCDrAHfGBrE?zCA`D?DGpHI`FK~DM~CGlAQnDKxAIpA]`Ea@zDk@bFs@jF_@jCMx@k@`D[hBYvAEPOr@Ot@Kf@Sz@GVIXETCJ_@xAKd@ELQp@Qr@GRq@bCe@~AIV_@nAkApDCHq@pB_BzEkArD{AtEgBjFeA`Ds@zBgAdDwAhEcAzCm@lBQf@u@zBgBpFGRi@~AENM^c@pAY|@Un@g@`BA@]dAITi@|AaA|CeA~C}AvEeAvCy@`CcApCu@rByArDy@lBw@jB_AtBw@dBq@tAqApC{C`GkEpIA@mBtDaAjBABo@nA[l@Ud@INIP]n@S`@Yh@]p@S`@aAjBwArCqBzDKPoDbHs@rAm@lAiBlDe@~@oAbCGLkAzBiAxBKRIPINqAdCg@`AoBvDs@rAq@rAm@hAoAdCs@rA]r@S\\mAxBoAxBMV}@zA{AdCiAfBiAdBGHeA|AMPaAtAsAhBy@hAaApAg@n@s@`Aa@d@_AjA{@fAcAlAgAnAgD`EuBdCg@j@cAjAcBrBe@j@e@h@iEdFY\\aAfAoAzA_BjByAfBy@bAm@r@aAjAeAlAw@|@sA~AcAjA}@hAkCzCeAnAu@`A_AdAsBbCiD~DqBbCeCxCg@j@]`@c@h@mCbD[^]`@yAfB[\\y@bA]^IJSTIJmB|BaCrCaCtC_@b@aBnB}@dAo@t@aAjAqAzAa@f@}AhBST_@d@y@`AIJy@lAiArAi@n@y@nAkAfBCBu@nASX]f@u@dAy@fAMPONi@p@eB~BEFm@z@CB]d@OT@D"
+              },
+              "start_location": {
+                "lat": 52.40082899999999,
+                "lng": -1.51345
+              },
+              "transit_details": {
+                "arrival_stop": {
+                  "location": {
+                    "lat": 52.4505866,
+                    "lng": -1.7253238
+                  },
+                  "name": "Birmingham International"
+                },
+                "arrival_time": {
+                  "text": "11:37am",
+                  "time_zone": "Europe/London",
+                  "value": 1606390620
+                },
+                "departure_stop": {
+                  "location": {
+                    "lat": 52.40082899999999,
+                    "lng": -1.51345
+                  },
+                  "name": "Coventry"
+                },
+                "departure_time": {
+                  "text": "11:28am",
+                  "time_zone": "Europe/London",
+                  "value": 1606390080
+                },
+                "headsign": "Manchester Piccadilly via Stoke-on-Trent",
+                "line": {
+                  "agencies": [
+                    {
+                      "name": "CrossCountry",
+                      "phone": "0844 811 0124",
+                      "url": "http://www.crosscountrytrains.co.uk/"
+                    }
+                  ],
+                  "color": "#880038",
+                  "name": "Reading - Manchester Piccadilly",
+                  "short_name": "CrossCountry",
+                  "text_color": "#ffffff",
+                  "vehicle": {
+                    "icon": "//maps.gstatic.com/mapfiles/transit/iw2/6/rail2.png",
+                    "local_icon": "//maps.gstatic.com/mapfiles/transit/iw2/6/uk-rail.png",
+                    "name": "Train",
+                    "type": "HEAVY_RAIL"
+                  }
+                },
+                "num_stops": 1
+              },
+              "travel_mode": "TRANSIT"
+            },
+            {
+              "distance": {
+                "text": "34 m",
+                "value": 34
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 35
+              },
+              "end_location": {
+                "lat": 52.4502911,
+                "lng": -1.7255302
+              },
+              "html_instructions": "Walk to Birmingham International Station (Stop SB)",
+              "polyline": {
+                "points": "egc_If~oIx@d@@B"
+              },
+              "start_location": {
+                "lat": 52.4505866,
+                "lng": -1.7253238
+              },
+              "steps": [
+                {
+                  "distance": {
+                    "text": "34 m",
+                    "value": 34
+                  },
+                  "duration": {
+                    "text": "1 min",
+                    "value": 35
+                  },
+                  "end_location": {
+                    "lat": 52.450298,
+                    "lng": -1.725514
+                  },
+                  "html_instructions": "Take exit \u003cspan class=\"location\"\u003eBirmingham International Rail Station\u003c/span\u003e",
+                  "polyline": {
+                    "points": "egc_If~oIx@d@"
+                  },
+                  "start_location": {
+                    "lat": 52.4505866,
+                    "lng": -1.7253238
+                  },
+                  "travel_mode": "WALKING"
+                },
+                {
+                  "distance": {
+                    "text": "1 m",
+                    "value": 0
+                  },
+                  "duration": {
+                    "text": "1 min",
+                    "value": 0
+                  },
+                  "end_location": {
+                    "lat": 52.4502911,
+                    "lng": -1.7255302
+                  },
+                  "html_instructions": "Head on \u003cb\u003eStation Link Rd\u003c/b\u003e",
+                  "polyline": {
+                    "points": "iec_Ip_pI"
+                  },
+                  "start_location": {
+                    "lat": 52.4502911,
+                    "lng": -1.7255302
+                  },
+                  "travel_mode": "WALKING"
+                }
+              ],
+              "travel_mode": "WALKING"
+            },
+            {
+              "distance": {
+                "text": "9.2 km",
+                "value": 9174
+              },
+              "duration": {
+                "text": "20 mins",
+                "value": 1223
+              },
+              "end_location": {
+                "lat": 52.4139446,
+                "lng": -1.7800057
+              },
+              "html_instructions": "Bus towards Solihull",
+              "polyline": {
+                "points": "qfc_Ir`pIBHT[TYZa@T[f@s@FIHIFE?G?C?C@E@C@CBA@AB?@?B?@@LO@CFGLG@AHEJEFC@?D?FIn@}@DKNWXs@BEFU`@oAPe@T_@NSJMJIJGLGHAD?J?H@DBLFFF^^BA@CBAB?@AB@B?@@@BBDBB@D?B?B?B?D?HADABABA@GDA?@X?VD`BJpBFTFXjBLtDXx@BHA^Gd@OFQLONIFCHCPAL@TBH@TDTFHDJFDBJLHVBR@L?J@JAJ?LAHCNAJITIb@EVCTCd@A`@Af@C~AAx@ClB?X?H?FCFAJJhDDf@Bh@Db@Fj@Lv@Lt@J`@Lf@J^Tl@Rf@R\\Xf@X^n@x@`@h@JLj@v@V^T^Zh@DLLVRf@Rl@Tt@Pp@Rz@Lx@Jn@Hx@Fz@BTBb@Bx@@n@@v@A`AA~@E`AANEj@Iz@M`AMv@Ox@Ol@CFSp@Sp@Ul@Uf@Sb@A@Wb@W`@W\\]^[Ze@`@[T[R_@Vk@^]TA@_@Xa@\\[Z]b@[^W`@EFQ\\MTUf@Qb@Sl@Qh@Mh@Ol@Ox@EVEVKz@O|ASjBIx@QhBALOzAQnBM~AWnCSrBUtBEZGLGNERUpACPYdBa@bCMb@OXk@UGCGEEECCEIi@uBNQXfAFTBJBFBDDDDBp@\\H@RDdAh@LJFFHFTRhA`@j@JRBj@@b@EZE\\I`@Op@[VQ^WDCZU@CFEROz@q@DCVQFEROLGPKp@[@A^KHCXG@?j@Er@?d@DD?b@JF@JBLDl@TPAXNLHl@\\@?\\Z^ZLLbBrAjAhA\\\\FFlAjADDDBp@z@BBXf@R\\R`@f@tAJVN\\DHb@v@^t@tAhCRb@LVPZJPJLNR@A@A@??A@?@?@?@?@@@?@??@@?@@@@?@@??@?@@??@?@@@?@?@@@?@?@?@?@?@?@?@?@?@?@?@BLBNB@BDDHFLBHDJ@JFTNx@DVTz@Zz@Tb@HNt@|@PNnAfAjB|ARR^Z`@\\XT\\Tf@Xn@`@r@`@|BtA^TRJfB~@?LAHUdBAP@T@L@LJPRPn@n@LPN`@ALALIj@g@jBIl@CTADKj@ALAP?L?H@LBRBJ@FDHDHDDTRr@`@JHJJJJLPBJBD@F@BBLBTBx@D^@DBJ@FHTHNHJFDFDF@F@j@At@AxAGn@Cr@GP?HDFFPNDJDJDRDVBPJv@BZFRDL@BLTd@x@Vk@@C^u@HYH_@D[?CD]?c@?Y@[@e@BWDQDM@APc@DIFMJMLKPGXEDAl@En@IJEHKJQBI^{@HSJ[BG`@eAN_@\\_AHUDUB]Bo@@w@DuAC?AAAC?C?G@C@A@?@?@?@?@@@@?DJ?H@v@P\\HXDJDB@z@XlAX~EPlBF^B\\@XDJ@f@HJDFBHJDFFHJT_@`AKZMb@Wv@GLEL[`ACHe@|AGRq@~BITo@pB_@`Ai@xAM^a@~Ac@~AOt@c@lBAFEd@GhA\\^JNHPFNxBhEt@tAhAxBJR`AjBBF@@^t@N\\FJJTDHDNBLHf@l@Q^K`@KRC`@EJAF?D@JBr@Ml@K@?RCNALCJ?TAT@H@dANdAXjA\\F@JFTHLDp@XTNRLbAj@l@X`@RVNLFXP`@ZHJJ?@@@?@@@?@@@@HEJBb@VB@FFTPDBf@Zx@j@JHfBbABDHFt@r@\\ZFDBDDF@B@??B@BBF@H?DAB@XCXCXAJNF"
+              },
+              "start_location": {
+                "lat": 52.4504923,
+                "lng": -1.7257013
+              },
+              "transit_details": {
+                "arrival_stop": {
+                  "location": {
+                    "lat": 52.4139446,
+                    "lng": -1.7800057
+                  },
+                  "name": "Station Road"
+                },
+                "arrival_time": {
+                  "text": "12:14pm",
+                  "time_zone": "Europe/London",
+                  "value": 1606392883
+                },
+                "departure_stop": {
+                  "location": {
+                    "lat": 52.4504923,
+                    "lng": -1.7257013
+                  },
+                  "name": "Birmingham International Station (Stop SB)"
+                },
+                "departure_time": {
+                  "text": "11:50am",
+                  "time_zone": "Europe/London",
+                  "value": 1606391405
+                },
+                "headsign": "Solihull",
+                "line": {
+                  "agencies": [
+                    {
+                      "name": "national express West Midlands",
+                      "url": "http://nxbus.co.uk/"
+                    }
+                  ],
+                  "color": "#c02932",
+                  "name": "Birmingham - Solihull",
+                  "short_name": "X12 Platinum",
+                  "text_color": "#ffffff",
+                  "vehicle": {
+                    "icon": "//maps.gstatic.com/mapfiles/transit/iw2/6/bus2.png",
+                    "name": "Bus",
+                    "type": "BUS"
+                  }
+                },
+                "num_stops": 22
+              },
+              "travel_mode": "TRANSIT"
+            },
+            {
+              "distance": {
+                "text": "5 m",
+                "value": 5
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 3
+              },
+              "end_location": {
+                "lat": 52.4140056,
+                "lng": -1.7799037
+              },
+              "html_instructions": "Walk to Station Rd (Stop SC)",
+              "polyline": {
+                "points": "sb|~HxszI@K?A"
+              },
+              "start_location": {
+                "lat": 52.4140174,
+                "lng": -1.7799714
+              },
+              "steps": [
+                {
+                  "distance": {
+                    "text": "5 m",
+                    "value": 5
+                  },
+                  "duration": {
+                    "text": "1 min",
+                    "value": 3
+                  },
+                  "end_location": {
+                    "lat": 52.4140056,
+                    "lng": -1.7799037
+                  },
+                  "html_instructions": "Head \u003cb\u003eeast\u003c/b\u003e on \u003cb\u003eStation Rd\u003c/b\u003e toward \u003cb\u003eHigh St\u003c/b\u003e",
+                  "polyline": {
+                    "points": "sb|~HxszI@K?A"
+                  },
+                  "start_location": {
+                    "lat": 52.4140174,
+                    "lng": -1.7799714
+                  },
+                  "travel_mode": "WALKING"
+                }
+              ],
+              "travel_mode": "WALKING"
+            },
+            {
+              "distance": {
+                "text": "1.1 km",
+                "value": 1115
+              },
+              "duration": {
+                "text": "3 mins",
+                "value": 187
+              },
+              "end_location": {
+                "lat": 52.41063699999999,
+                "lng": -1.792841
+              },
+              "html_instructions": "Bus towards Northfield",
+              "polyline": {
+                "points": "ac|~HdszIHh@EXUjBGd@CRALC\\InAQpDC^ElAAHA\\ANCf@A\\B@@B@@BBBF@@@FBFBJ@H@L?F@D?B?B?D?B?DAB?D?B?BABADAFAFADAj@A^?D?@?B?@A@?@CJB`@H|@B\\Hl@Lj@TbAn@|BBLRdALx@F`@BPJ|@BV?J@BDt@@ZDzBBh@BVD^BNBJH^HZLZ@@JRZh@bAvA^j@\\j@\\f@LJJDHBlA^VHh@NLDNH`@PNJHFFDLLLJDQ"
+              },
+              "start_location": {
+                "lat": 52.41408860000001,
+                "lng": -1.77987
+              },
+              "transit_details": {
+                "arrival_stop": {
+                  "location": {
+                    "lat": 52.41063699999999,
+                    "lng": -1.792841
+                  },
+                  "name": "Solihull College"
+                },
+                "arrival_time": {
+                  "text": "12:24pm",
+                  "time_zone": "Europe/London",
+                  "value": 1606393484
+                },
+                "departure_stop": {
+                  "location": {
+                    "lat": 52.41408860000001,
+                    "lng": -1.77987
+                  },
+                  "name": "Station Rd (Stop SC)"
+                },
+                "departure_time": {
+                  "text": "12:21pm",
+                  "time_zone": "Europe/London",
+                  "value": 1606393297
+                },
+                "headsign": "Northfield",
+                "line": {
+                  "agencies": [
+                    {
+                      "name": "national express West Midlands",
+                      "url": "http://nxbus.co.uk/"
+                    }
+                  ],
+                  "color": "#e00f20",
+                  "name": "Northfield - Solihull",
+                  "short_name": "76",
+                  "text_color": "#f2bf91",
+                  "vehicle": {
+                    "icon": "//maps.gstatic.com/mapfiles/transit/iw2/6/bus2.png",
+                    "name": "Bus",
+                    "type": "BUS"
+                  }
+                },
+                "num_stops": 2
+              },
+              "travel_mode": "TRANSIT"
+            },
+            {
+              "distance": {
+                "text": "0.2 km",
+                "value": 195
+              },
+              "duration": {
+                "text": "2 mins",
+                "value": 148
+              },
+              "end_location": {
+                "lat": 52.4098593,
+                "lng": -1.7923815
+              },
+              "html_instructions": "Walk to Halls of Residence, Blossomfield Rd, Solihull B91 1SZ, UK",
+              "polyline": {
+                "points": "um{~Hxd}I@BDBLNNPPTPVJQ@ABADAF@hANRk@BIBK@I@I@E?A?EAGA?CGCGGIKKEGCGEOCM"
+              },
+              "start_location": {
+                "lat": 52.4106708,
+                "lng": -1.792934
+              },
+              "steps": [
+                {
+                  "distance": {
+                    "text": "51 m",
+                    "value": 51
+                  },
+                  "duration": {
+                    "text": "1 min",
+                    "value": 37
+                  },
+                  "end_location": {
+                    "lat": 52.4102982,
+                    "lng": -1.7933672
+                  },
+                  "html_instructions": "Head \u003cb\u003esouthwest\u003c/b\u003e on \u003cb\u003eBlossomfield Rd\u003c/b\u003e/\u003cwbr/\u003e\u003cb\u003eB4102\u003c/b\u003e",
+                  "polyline": {
+                    "points": "um{~Hxd}I@BDBLNNPPTPV"
+                  },
+                  "start_location": {
+                    "lat": 52.4106708,
+                    "lng": -1.792934
+                  },
+                  "travel_mode": "WALKING"
+                },
+                {
+                  "distance": {
+                    "text": "62 m",
+                    "value": 62
+                  },
+                  "duration": {
+                    "text": "1 min",
+                    "value": 54
+                  },
+                  "end_location": {
+                    "lat": 52.4097711,
+                    "lng": -1.793335
+                  },
+                  "html_instructions": "Turn \u003cb\u003eleft\u003c/b\u003e",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                    "points": "kk{~Hpg}IJQ@ABADAF@hAN"
+                  },
+                  "start_location": {
+                    "lat": 52.4102982,
+                    "lng": -1.7933672
+                  },
+                  "travel_mode": "WALKING"
+                },
+                {
+                  "distance": {
+                    "text": "82 m",
+                    "value": 82
+                  },
+                  "duration": {
+                    "text": "1 min",
+                    "value": 57
+                  },
+                  "end_location": {
+                    "lat": 52.4098593,
+                    "lng": -1.7923815
+                  },
+                  "html_instructions": "Turn \u003cb\u003eleft\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the right\u003c/div\u003e",
+                  "maneuver": "turn-left",
+                  "polyline": {
+                    "points": "ah{~Hjg}IRk@BIBK@I@I@E?A?EAGA?CGCGGIKKEGCGEOCM"
+                  },
+                  "start_location": {
+                    "lat": 52.4097711,
+                    "lng": -1.793335
+                  },
+                  "travel_mode": "WALKING"
+                }
+              ],
+              "travel_mode": "WALKING"
+            }
+          ],
+          "traffic_speed_entry": [],
+          "via_waypoint": []
+        }
+      ],
+      "overview_polyline": {
+        "points": "msy~HdpeHKnBmB}@Cb@P~@pCfMH^EPuChAl@|C?r@a@tFKBBFBH`@NNEDSAIZNFJXJD?Hi@@Ua@M@MdBs@\\HAJMpBM~A}@dK_@bGc@dLWlKQzLGvNN~Uf@hTjAlXp@dK|AxPhBpP~@nHr@|FpAjMzAnPn@zIh@xIlA~X|Axj@d@nQz@d\\vFfyBnBju@pAji@z@zZLxHl@jSNtGNvELzMItRU`LUlF]hGg@rGmA~KsAvJoB|Kq@bDaB|G}A|F{CxJ_Pjf@eSvm@sCvIcHpSsExLiFtLkNzXsDfHaE`Ie^pr@qKrSuDjHiFfJwF|IiFnHwElGaFfGaSxUwSrVyh@pn@u]bb@uLpNcAlAcC`DcB~BoAjB}CvEaCzC}CfEm@z@z@j@e@d@BHT[p@{@|@oAPSFMBQJGD?NMXU^OLIt@iAt@gBr@uBd@s@VWXOd@?z@r@LGJ@JR?PEVIF?XDxBJpBFTFXjBLnF\\h@Id@OFQ\\YPG~@D`AZPPLj@@p@Gr@Sx@Il@KnEEjECNHtDV`Dt@vD`@lAf@dAdCjDdBdCbAvBh@bBd@lBXhBPtBLbD?xBG`C_@xDq@fDsAxDeAjBu@|@aA|@cC`BaBnAmB`C{@bBeAdDk@vC}ArOw@~Ii@hFMh@Mb@YbB{@hF]|@aAe@IMi@uBNQ`@|AFR`Al@\\FrAt@PNTRhA`@~@NnACx@OrAk@xAcAxAkAx@k@rAq@dAW~AEj@DdAVl@TPAf@XlBtAzEhE`B|At@~@l@dAvAlD~C`G~@hB\\^HCHBJT?NBRP`@Rn@r@bDp@~A~@lA`FhExBdBhGrDr@`@fB~@?LWnB?f@BZ^b@|@`AN`@ALKx@q@xCStA?v@Np@JNhAt@p@r@J\\P|BPn@RZNJpB?nESPLVZThANrAL`@NXd@x@Vk@`@y@Ry@JaB@u@D}@^eAf@q@j@Mr@Gz@OT]x@uBrAmDNk@FmAFmCEA?SFADHjB\\dBf@lAX~EPlCJjBRb@\\R^k@|As@vBmA|D{@tCoArDw@xBeA~Ds@bDGl@GhA\\^T`@`GhLrAhCbAtBXnAlA]t@Oz@EJBr@Mn@K|@Ij@?nAPdD`Ab@NfAh@fDfB`BdAHJJ?B@FDTAf@XjAx@pD~BrBnBFXC|@Ed@NFOG@MOEHh@[dCKx@a@lHMtCCvAVn@Dv@Gh@GfBAp@LzAVxAdA`EVrAd@jDJ|ANxEVzAd@lA|CxEj@r@TH|C~@`Af@l@f@DQEPFF`AnAVWpAPVu@He@CO[e@Sm@"
+      },
+      "summary": "",
+      "warnings": [
+        "Walking directions are in beta. Use caution – This route may be missing sidewalks or pedestrian paths."
+      ],
+      "waypoint_order": []
+    }
+  ],
+  "status": "OK"
+}

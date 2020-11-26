@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="Assets\invalidpostcoderesponse.json" />
+    <None Remove="Assets\testdirections.json" />
     <None Remove="Assets\testpostcoderesponse.json" />
     <None Remove="Assets\testproviders.json" />
     <None Remove="Assets\testterminatedpostcoderesponse.json" />
@@ -15,6 +16,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Assets\invalidpostcoderesponse.json" />
+    <EmbeddedResource Include="Assets\testdirections.json" />
     <EmbeddedResource Include="Assets\testpostcoderesponse.json" />
     <EmbeddedResource Include="Assets\testproviders.json" />
     <EmbeddedResource Include="Assets\testterminatedpostcoderesponse.json" />

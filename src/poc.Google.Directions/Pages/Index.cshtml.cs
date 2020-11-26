@@ -144,7 +144,7 @@ namespace poc.Google.Directions.Pages
             var json = $"{basePath}.Assets.saved_results_{MakePostcodeKey(HomeLocation.Postcode)}_to_{MakePostcodeKey(destinationPostcode)}.json"
                 .ReadManifestResourceStreamAsString();
 
-            var journey = await _directionsService.BuildJourneyFromJsonString(json);
+            var journey = await _directionsService.BuildJourneyFromJson(json);
 
             var journeyCacheKey = CreateJourneyCacheKey(HomeLocation.Postcode, destinationPostcode);
             _cacheService.Set(journeyCacheKey, journey, TimeSpan.FromSeconds(CacheExpiryInSeconds));
