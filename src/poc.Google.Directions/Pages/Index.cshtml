@@ -17,15 +17,15 @@
             <input asp-for="Postcode" class="form-control" placeholder="Enter a postcode" aria-label="Enter a postcode" />
             <span asp-validation-for="Postcode" class="text-danger"></span>
         </div>
-        
+
         <div class="form-group">
-            <label asp-for="UseBusTransitMode" class="control-label">Bus</label>
-            <input type="checkbox" asp-for="UseBusTransitMode">
+            <label asp-for="UseBusTransitMode" class="control-label">Train</label>
+            <input type="checkbox" asp-for="UseTrainTransitMode">
         </div>
 
         <div class="form-group">
             <label asp-for="UseBusTransitMode" class="control-label">Bus</label>
-            <input type="checkbox" asp-for="UseTrainTransitMode">
+            <input type="checkbox" asp-for="UseBusTransitMode">
         </div>
 
         <button id="search-button" type="submit">Search</button>
