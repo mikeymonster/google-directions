@@ -16,18 +16,18 @@ namespace poc.Google.Directions.Tests
             typeof(IndexModel).ShouldNotAcceptNullOrBadConstructorArguments();
         }
 
-        [Fact]
-        public void IndexModel_Does_Something()
-        {
-            var service = new IndexModel(
-                Substitute.For<ICacheService>(),
-                new DirectionsServiceBuilder().Build(),
-                new MagicLinkServiceBuilder().Build(),
-                new PostcodeLookupServiceBuilder().Build(),
-                new ProviderDataServiceBuilder().Build(),
-                Substitute.For<ILogger<IndexModel>>());
+        //[Fact]
+        //public void IndexModel_Does_Something()
+        //{
+        //    var service = new IndexModel(
+        //        Substitute.For<ICacheService>(),
+        //        new DirectionsServiceBuilder().Build(),
+        //        new MagicLinkServiceBuilder().Build(),
+        //        new PostcodeLookupServiceBuilder().Build(),
+        //        new ProviderDataServiceBuilder().Build(),
+        //        Substitute.For<ILogger<IndexModel>>());
 
-            //TODO: Test something
-        }
+        //    //TODO: Test something
+        //}
     }
 }

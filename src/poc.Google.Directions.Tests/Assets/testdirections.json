@@ -770,9 +770,9 @@
       "overview_polyline": {
         "points": "msy~HdpeHKnBmB}@Cb@P~@pCfMH^EPuChAl@|C?r@a@tFKBBFBH`@NNEDSAIZNFJXJD?Hi@@Ua@M@MdBs@\\HAJMpBM~A}@dK_@bGc@dLWlKQzLGvNN~Uf@hTjAlXp@dK|AxPhBpP~@nHr@|FpAjMzAnPn@zIh@xIlA~X|Axj@d@nQz@d\\vFfyBnBju@pAji@z@zZLxHl@jSNtGNvELzMItRU`LUlF]hGg@rGmA~KsAvJoB|Kq@bDaB|G}A|F{CxJ_Pjf@eSvm@sCvIcHpSsExLiFtLkNzXsDfHaE`Ie^pr@qKrSuDjHiFfJwF|IiFnHwElGaFfGaSxUwSrVyh@pn@u]bb@uLpNcAlAcC`DcB~BoAjB}CvEaCzC}CfEm@z@z@j@e@d@BHT[p@{@|@oAPSFMBQJGD?NMXU^OLIt@iAt@gBr@uBd@s@VWXOd@?z@r@LGJ@JR?PEVIF?XDxBJpBFTFXjBLnF\\h@Id@OFQ\\YPG~@D`AZPPLj@@p@Gr@Sx@Il@KnEEjECNHtDV`Dt@vD`@lAf@dAdCjDdBdCbAvBh@bBd@lBXhBPtBLbD?xBG`C_@xDq@fDsAxDeAjBu@|@aA|@cC`BaBnAmB`C{@bBeAdDk@vC}ArOw@~Ii@hFMh@Mb@YbB{@hF]|@aAe@IMi@uBNQ`@|AFR`Al@\\FrAt@PNTRhA`@~@NnACx@OrAk@xAcAxAkAx@k@rAq@dAW~AEj@DdAVl@TPAf@XlBtAzEhE`B|At@~@l@dAvAlD~C`G~@hB\\^HCHBJT?NBRP`@Rn@r@bDp@~A~@lA`FhExBdBhGrDr@`@fB~@?LWnB?f@BZ^b@|@`AN`@ALKx@q@xCStA?v@Np@JNhAt@p@r@J\\P|BPn@RZNJpB?nESPLVZThANrAL`@NXd@x@Vk@`@y@Ry@JaB@u@D}@^eAf@q@j@Mr@Gz@OT]x@uBrAmDNk@FmAFmCEA?SFADHjB\\dBf@lAX~EPlCJjBRb@\\R^k@|As@vBmA|D{@tCoArDw@xBeA~Ds@bDGl@GhA\\^T`@`GhLrAhCbAtBXnAlA]t@Oz@EJBr@Mn@K|@Ij@?nAPdD`Ab@NfAh@fDfB`BdAHJJ?B@FDTAf@XjAx@pD~BrBnBFXC|@Ed@NFOG@MOEHh@[dCKx@a@lHMtCCvAVn@Dv@Gh@GfBAp@LzAVxAdA`EVrAd@jDJ|ANxEVzAd@lA|CxEj@r@TH|C~@`Af@l@f@DQEPFF`AnAVWpAPVu@He@CO[e@Sm@"
       },
-      "summary": "",
+      "summary": "Route summary",
       "warnings": [
-        "Walking directions are in beta. Use caution – This route may be missing sidewalks or pedestrian paths."
+        "Walking directions are in beta. Use caution - This route may be missing sidewalks or pedestrian paths."
       ],
       "waypoint_order": []
     }

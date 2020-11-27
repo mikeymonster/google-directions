@@ -24,3 +24,5 @@
 - look at bus vs train - do I need to call twice?
 - Is it ok to take the time now, or do we need the more expensive "start time" option?
 
+Directions API has a parameter to get just train and bus directions `transit_mode=train|bus
+

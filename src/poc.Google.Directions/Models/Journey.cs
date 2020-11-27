@@ -14,34 +14,52 @@ namespace poc.Google.Directions.Models
 
     public class Route
     {
+        public string Summary { get; init; }
+        public IList<string> Warnings { get; init; }
         public IList<Leg> Legs { get; init; }
     }
 
     public class Leg
     {
-        public int Distance { get; set; }
-        public string DistanceString { get; set; }
-        public int Duration { get; set; }
-        public string DurationString { get; set; }
-        public string StartAddress { get; set; }
-        public string EndAddress { get; set; }
+        public int Distance { get; init; }
+        public string DistanceString { get; init; }
+        public int Duration { get; init; }
+        public string DurationString { get; init; }
+        public string StartAddress { get; init; }
+        public string EndAddress { get; init; }
 
         public IList<Step> Steps { get; init; }
     }
     
     public class Step
     {
-        public int Distance { get; set; }
-        public string DistanceString { get; set; }
-        public int Duration { get; set; }
-        public string DurationString { get; set; }
-        public string Instructions { get; set; }
+        public int Distance { get; init; }
+        public string DistanceString { get; init; }
+        public int Duration { get; init; }
+        public string DurationString { get; init; }
+        public string Instructions { get; init; }
         public string TravelMode { get; init; }
         public IList<Step> Steps { get; init; }
-        public double StartLongitude { get; set; }
-        public double StartLatitude { get; set; }
-        public double EndLatitude { get; set; }
-        public double EndLongitude { get; set; }
+        public double StartLongitude { get; init; }
+        public double StartLatitude { get; init; }
+        public double EndLatitude { get; init; }
+        public double EndLongitude { get; init; }
+        public TransitDetails TransitDetails { get; set; }
+    }
+
+    public class TransitDetails
+    {
+        public string ArrivalStopName { get; init; }
+        public double ArrivalStopLatitude { get; init; }
+        public double ArrivalStopLongitude { get; init; }
+        public string DepartureStopName { get; init; }
+        public double DepartureStopLatitude { get; init; }
+        public double DepartureStopLongitude { get; init; }
+        public string LineName { get; init; }
+        public string LineShortName { get; init; }
+        public string LineVehicleName { get; init; }
+        public string LineVehicleType { get; init; }
+        public int NumStops { get; init; }
     }
 
     namespace GoogleClasses

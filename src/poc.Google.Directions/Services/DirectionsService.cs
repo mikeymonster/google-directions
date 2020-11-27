@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
 using poc.Google.Directions.Extensions;
@@ -26,7 +29,7 @@ namespace poc.Google.Directions.Services
             _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
-        public async Task<Journey> GetDirections(Location from, Location to)
+        public async Task<Journey> GetDirections(Location from, Location to, bool useTrainTransitMode = true, bool useBusTransitMode = true)
         {
             if (string.IsNullOrWhiteSpace(_settings.GoogleApiKey)) return null;
 
@@ -34,8 +37,8 @@ namespace poc.Google.Directions.Services
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            //httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
-            //httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
+            httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+            httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
 
             //Build uri to google directions...
 
@@ -51,7 +54,20 @@ namespace poc.Google.Directions.Services
             uriBuilder.Append($"&destination={to.Latitude},{to.Longitude}");
             uriBuilder.Append("&region=uk");
             uriBuilder.Append("&mode=transit");
-            uriBuilder.Append("&transit_mode=bus|train");
+
+            var transitModeBuilder = new StringBuilder();
+            if (useTrainTransitMode) transitModeBuilder.Append("train");
+            if (useBusTransitMode)
+            {
+                if (transitModeBuilder.Length > 0) transitModeBuilder.Append("|");
+                transitModeBuilder.Append("bus");
+            }
+
+            if (transitModeBuilder.Length > 0)
+            {
+                uriBuilder.Append($"&transit_mode={transitModeBuilder}");
+            }
+
             uriBuilder.Append($"&key={_settings.GoogleApiKey}");
 
             var uri = new Uri(uriBuilder.ToString());
@@ -65,18 +81,35 @@ namespace poc.Google.Directions.Services
 
             var content = await responseMessage.Content.ReadAsStringAsync();
 
-            Debug.WriteLine($"Google response: {Environment.NewLine}{content.PrettifyJsonString()}");
+            Debug.WriteLine($"Google response: {Environment.NewLine}{content.PrettifyJson()}");
 
-            return await BuildJourneyFromJson(content);
+            return await BuildJourneyFromJson(await responseMessage.Content.ReadAsStreamAsync());
         }
 
-        public async Task<Journey> BuildJourneyFromJson(string json)
+        public async Task<Journey> BuildJourneyFromJson(Stream jsonStream)
         {
             //NOTE: searched for B91 1SB but the destination in the results is B91 1SZ
+            //TODO: Would be faster to do this from the content stream - look at this after test is working
+            //https://stu.dev/a-look-at-jsondocument/
+            //var jsonDoc = await JsonDocument.ParseAsync(await responseMessage.Content.ReadAsStreamAsync());
+
+            //var options = new JsonSerializerOptions
+            //{
+            //    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+            //    WriteIndented = true
+            //};
+
+            //JsonDocument jsonDoc;
+            //if (jsonStream != null)
+            var jsonDoc = await JsonDocument.ParseAsync(jsonStream);
+            //else 
+            //var jsonDoc = JsonDocument.Parse(json);//, options);
+
+            //var root = jsonDoc.RootElement;
 
             var journey = new Journey
             {
-                RawJson = json,
+                RawJson = jsonDoc.PrettifyJson(),
                 Distance = 0,
                 DistanceFromNearestBusStop = 0,
                 DistanceFromNearestTrainStop = 0,
@@ -84,19 +117,28 @@ namespace poc.Google.Directions.Services
                 Routes = new List<Route>()
             };
 
-            //TODO: Would be faster to do this from the content stream - look at this after test is working
-            //https://stu.dev/a-look-at-jsondocument/
-            //var jsonDoc = await JsonDocument.ParseAsync(await responseMessage.Content.ReadAsStreamAsync());
-
-            var jsonDoc = JsonDocument.Parse(json);
-            //var root = jsonDoc.RootElement;
 
             //var routes = root.GetProperty("routes");
             foreach (var routeElement in jsonDoc.RootElement.GetProperty("routes").EnumerateArray())
             {
                 //Debug.WriteLine($"Route {routeElement.Name}");
 
-                var route = new Route { Legs = new List<Leg>() };
+                var route = new Route
+                {
+                    Summary = routeElement.GetProperty("summary").GetString(),
+                    Warnings = new List<string>(
+                        routeElement.GetProperty("warnings")
+                        .EnumerateArray()
+                        .Select(w =>
+                        {
+                            Debug.WriteLine(w.GetString());
+                            Debug.WriteLine((int)w.GetString()[44]);
+                            Debug.WriteLine($"{(int)w.GetString()[44]:X}");
+                            return w.GetString();
+                        })
+                        .ToList()),
+                    Legs = new List<Leg>()
+                };
                 journey.Routes.Add(route);
 
                 foreach (var legElement in routeElement.GetProperty("legs").EnumerateArray())
@@ -111,7 +153,6 @@ namespace poc.Google.Directions.Services
                         DurationString = legElement.GetProperty("duration").GetProperty("text").GetString(),
                         Steps = new List<Step>()
                     };
-
                     route.Legs.Add(leg);
 
                     foreach (var stepElement in legElement.GetProperty("steps").EnumerateArray())
@@ -135,6 +176,75 @@ namespace poc.Google.Directions.Services
                             Steps = new List<Step>()
                         };
                         leg.Steps.Add(step);
+
+                        if (stepElement.TryGetProperty("steps", out var innerStepsArray))
+                        {
+                            foreach (var innerStepElement in innerStepsArray.EnumerateArray())
+                            {
+                                step.Steps.Add(new Step
+                                {
+                                    Distance = innerStepElement.GetProperty("distance").GetProperty("value").GetInt32(),
+                                    DistanceString = innerStepElement.GetProperty("distance").GetProperty("text")
+                                        .GetString(),
+                                    Duration = innerStepElement.GetProperty("duration").GetProperty("value").GetInt32(),
+                                    DurationString = innerStepElement.GetProperty("duration").GetProperty("text")
+                                        .GetString(),
+
+                                    StartLatitude = innerStepElement.GetProperty("start_location").GetProperty("lat")
+                                        .GetDouble(),
+                                    StartLongitude = innerStepElement.GetProperty("start_location").GetProperty("lng")
+                                        .GetDouble(),
+
+                                    EndLatitude = innerStepElement.GetProperty("end_location").GetProperty("lat")
+                                        .GetDouble(),
+                                    EndLongitude = innerStepElement.GetProperty("end_location").GetProperty("lng")
+                                        .GetDouble(),
+
+                                    Instructions = innerStepElement.GetProperty("html_instructions").GetString(),
+
+                                    Steps = new List<Step>()
+                                });
+
+                                if (innerStepElement.TryGetProperty("transit_details",
+                                    out var innerTransitDetailsProperty))
+                                {
+
+                                }
+
+                            }
+                        }
+
+                        step.TransitDetails = new TransitDetails();
+
+                        //TODO: Look at transit_details
+                        if (stepElement.TryGetProperty("transit_details", out var transitDetailsProperty))
+                        {
+                            if (transitDetailsProperty.TryGetProperty("line", out var line))
+                            {
+                                //var lineName = line.TryGetProperty("line", out var lineName)
+                            }
+
+                            //var line =
+
+                        //This is messy - need to break down the individual pieces
+                        //TODO: Add a helper that gets string using Try then returns GetString or null
+                        //      Same for double
+
+                        //step.TransitDetails = new TransitDetails
+                        //{
+                            //ArrivalStopName
+                            //ArrivalStopLatitude
+                            //ArrivalStopLongitude
+                            //DepartureStopName
+                            //DepartureStopLatitude
+                            //DepartureStopLongitude
+                            //    LineName = transitDetailsProperty.GetProperty("line_name").GetProperty("name")
+                            //LineShortName
+                            //LineVehicleName
+                            //LineVehicleType
+                            //NumStops =
+                        //};
+                        }
                     }
                 }
             }

@@ -14,14 +14,14 @@ namespace poc.Google.Directions.Tests
     {
         private const string TestApiKey = "test_key";
 
-        private Location TestFromLocation => new Location
+        private static Location TestFromLocation => new Location
         {
             Postcode = "CV1 2WT",
             Longitude = -1.508122,
             Latitude = 52.400997
         };
 
-        private Location TestToLocation => new Location
+        private static Location TestToLocation => new Location
         {
             Postcode = "B91 1SB",
             Longitude = -1.792148,
@@ -58,7 +58,7 @@ namespace poc.Google.Directions.Tests
         {
             // ReSharper disable once StringLiteralTypo
             const string queryUrl =
-                "https://maps.googleapis.com/maps/api/directions/json?origin=52.400997,-1.508122&destination=52.409568,-1.792148&region=uk&mode=transit&transit_mode=bus|train";
+                "https://maps.googleapis.com/maps/api/directions/json?origin=52.400997,-1.508122&destination=52.409568,-1.792148&region=uk&mode=transit&transit_mode=train|bus";
             var service = new DirectionsServiceBuilder(
                     queryUrl,
                     TestApiKey,
@@ -75,19 +75,18 @@ namespace poc.Google.Directions.Tests
         {
             var service = new DirectionsServiceBuilder().Build();
 
-            var json = new DirectionsJsonBuilder().Build();
-
-            var journey = await service.BuildJourneyFromJson(json);
+            var journey = await service.BuildJourneyFromJson(await new DirectionsJsonBuilder().BuildStream());
 
             journey.Should().NotBeNull();
-            journey.RawJson.Should().Be(json);
+            //Not 
+            //journey.RawJson.Should().Be(json);
         }
 
         [Fact]
         public async void DirectionsService_BuildJourneyFromJsonString_Returns_Expected_Journey()
         {
             var service = new DirectionsServiceBuilder().Build();
-            var journey = await service.BuildJourneyFromJson(new DirectionsJsonBuilder().Build());
+            var journey = await service.BuildJourneyFromJson(await new DirectionsJsonBuilder().BuildStream());
 
             journey.Should().NotBeNull();
 
@@ -95,6 +94,12 @@ namespace poc.Google.Directions.Tests
             journey.Routes.Count.Should().Be(1);
 
             var route = journey.Routes.First();
+            route.Summary.Should().Be("Route summary");
+            route.Warnings.Should().NotBeNullOrEmpty();
+            route.Warnings.Count.Should().Be(1);
+            route.Warnings.First().Should().StartWith("Walking directions are in beta. Use caution ");
+            route.Warnings.First().Should().EndWith(" This route may be missing sidewalks or pedestrian paths.");
+            route.Warnings.First().Should().Be("Walking directions are in beta. Use caution - This route may be missing sidewalks or pedestrian paths.");
 
             route.Legs.Should().NotBeNullOrEmpty();
             route.Legs.Count.Should().Be(1);
@@ -138,6 +143,10 @@ namespace poc.Google.Directions.Tests
             step.Steps.Should().NotBeNull();
             //step.Steps.Should().NotBeNullOrEmpty();
             //step.Steps.Count.Should().Be(1);
+
+            step.TransitDetails.Should().NotBeNull();
+
+            //TODO: Verify transit details
 
         }
     }

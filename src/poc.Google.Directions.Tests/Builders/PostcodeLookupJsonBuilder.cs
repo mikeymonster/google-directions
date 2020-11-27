@@ -1,5 +1,4 @@
-﻿
-namespace poc.Google.Directions.Tests.Builders
+﻿namespace poc.Google.Directions.Tests.Builders
 {
     // ReSharper disable StringLiteralTypo
     public class PostcodeLookupJsonBuilder : JsonResourceBuilder

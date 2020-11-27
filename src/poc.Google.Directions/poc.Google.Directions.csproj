@@ -5,10 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Assets\saved_results_cv1_2wt_to_b3_1jp.json" />
     <Content Remove="Assets\saved_results_cv1_2wt_to_b91_1sb.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Assets\saved_results_cv1_2wt_to_b3_1jp.json" />
     <EmbeddedResource Include="Assets\saved_results_cv1_2wt_to_b91_1sb.json" />
   </ItemGroup>
 

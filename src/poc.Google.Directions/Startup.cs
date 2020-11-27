@@ -82,9 +82,8 @@ namespace poc.Google.Directions
         protected virtual void RegisterHttpClients(IServiceCollection services)
         {
             services.AddHttpClient<IPostcodeLookupService, PostcodeLookupService>();
-            services.AddHttpClient<IDirectionsService, DirectionsService>();
+            //services.AddHttpClient<IDirectionsService, DirectionsService>();
 
-            return;
             services.AddHttpClient<IDirectionsService, DirectionsService>(
                     nameof(DirectionsService),
                     client =>
