@@ -19,10 +19,11 @@ namespace poc.Google.Directions.Tests
         {
             var service = new MagicLinkServiceBuilder().Build();
 
-            var result = service.CreateDirectionsLink();
+            var result = service.CreateDirectionsLink(LocationBuilder.FromLocation, LocationBuilder.ToLocation);
+
 
             result.Should().NotBeNullOrEmpty();
-            result.Should().StartWith("https://www.google.com/maps/dir/?api=1&");
+            result.Should().StartWith("https://www.google.com/maps/dir/?api=1&origin=52.400997,-1.508122&destination=52.409568,-1.792148&travelmode=transit");
         }
     }
 }

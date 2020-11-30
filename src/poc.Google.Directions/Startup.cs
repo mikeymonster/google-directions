@@ -19,7 +19,8 @@ namespace poc.Google.Directions
             Configuration = configuration;
             ApiSettings = new ApiSettings
             {
-                GoogleApiKey = Configuration["GoogleApiKey"]
+                GoogleDirectionsApiKey = Configuration["GoogleDirectionsApiKey"],
+                GooglePlacesApiKey = Configuration["GooglePlacesApiKey"]
             };
 
             WebHostEnvironment = hostingEnv;
@@ -82,15 +83,25 @@ namespace poc.Google.Directions
         protected virtual void RegisterHttpClients(IServiceCollection services)
         {
             services.AddHttpClient<IPostcodeLookupService, PostcodeLookupService>();
-            //services.AddHttpClient<IDirectionsService, DirectionsService>();
 
             services.AddHttpClient<IDirectionsService, DirectionsService>(
                     nameof(DirectionsService),
-                    client =>
+                    client => { }
+                )
+                .ConfigurePrimaryHttpMessageHandler(messageHandler =>
+                {
+                    var handler = new HttpClientHandler();
+
+                    if (handler.SupportsAutomaticDecompression)
                     {
-                        //client.BaseAddress = new Uri("http://www.xxx.org");
-                        //client.DefaultRequestHeaders.Add("Accept", "application/json");
+                        handler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
                     }
+                    return handler;
+                });
+
+            services.AddHttpClient<IPlacesService, PlacesService>(
+                    nameof(PlacesService),
+                    client => { }
                 )
                 .ConfigurePrimaryHttpMessageHandler(messageHandler =>
                 {
@@ -110,6 +121,7 @@ namespace poc.Google.Directions
             services.AddTransient<ICacheService, CacheService>();
             services.AddTransient<IDirectionsService, DirectionsService>();
             services.AddTransient<IMagicLinkService, MagicLinkService>();
+            services.AddTransient<IPlacesService, PlacesService>();
             services.AddTransient<IPostcodeLookupService, PostcodeLookupService>();
             services.AddTransient<IProviderDataService, ProviderDataService>();
         }

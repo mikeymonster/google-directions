@@ -9,11 +9,6 @@ namespace poc.Google.Directions.Tests.Builders
 
         public ProviderDataServiceBuilder(ApiSettings settings = null)
         {
-            settings ??= new ApiSettings
-            {
-                GoogleApiKey = "test_key"
-            };
-
             _providerDataService = new ProviderDataService();
         }
 

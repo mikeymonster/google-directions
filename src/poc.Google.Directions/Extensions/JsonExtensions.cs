@@ -65,5 +65,29 @@ namespace poc.Google.Directions.Extensions
 
             return ms;
         }
+
+        public static string SafeGetString(this JsonElement element, string propertyName)
+        {
+            if (element.TryGetProperty(propertyName, out var val))
+                return val.GetString();
+
+            return default;
+        }
+
+        public static int SafeGetInt32(this JsonElement element, string propertyName)
+        {
+            if (element.TryGetProperty(propertyName, out var val))
+                return val.GetInt32();
+
+            return default;
+        }
+
+        public static double SafeGetDouble(this JsonElement element, string propertyName)
+        {
+            if (element.TryGetProperty(propertyName, out var val))
+                return val.GetDouble();
+
+            return double.NaN;
+        }
     }
 }

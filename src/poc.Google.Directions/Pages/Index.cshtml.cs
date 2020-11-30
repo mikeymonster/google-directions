@@ -19,6 +19,7 @@ namespace poc.Google.Directions.Pages
         private readonly ICacheService _cacheService;
         private readonly IDirectionsService _directionsService;
         private readonly IMagicLinkService _magicLinkService;
+        private readonly IPlacesService _placesService;
         private readonly IPostcodeLookupService _postcodeLookupService;
         private readonly IProviderDataService _providerDataService;
 
@@ -34,10 +35,13 @@ namespace poc.Google.Directions.Pages
 
         public bool UseTrainTransitMode { get; set; }
         public bool UseBusTransitMode { get; set; }
+        public bool RankPlacesByDistance { get; set; }
 
         public IList<Provider> Providers { get; private set; }
 
         public IDictionary<string, Journey> Journeys { get; private set; }
+
+        public IDictionary<string, Places> PlacesList { get; private set; }
 
         private static bool _preloaded;
 
@@ -45,6 +49,7 @@ namespace poc.Google.Directions.Pages
             ICacheService cacheService,
             IDirectionsService directionsService,
             IMagicLinkService magicLinkService,
+            IPlacesService placesService,
             IPostcodeLookupService postcodeLookupService,
             IProviderDataService providerDataService,
             ILogger<IndexModel> logger)
@@ -52,6 +57,7 @@ namespace poc.Google.Directions.Pages
             _cacheService = cacheService ?? throw new ArgumentNullException(nameof(cacheService));
             _directionsService = directionsService ?? throw new ArgumentNullException(nameof(directionsService));
             _magicLinkService = magicLinkService ?? throw new ArgumentNullException(nameof(magicLinkService));
+            _placesService = placesService ?? throw new ArgumentNullException(nameof(placesService));
             _postcodeLookupService = postcodeLookupService ?? throw new ArgumentNullException(nameof(postcodeLookupService));
             _providerDataService = providerDataService ?? throw new ArgumentNullException(nameof(providerDataService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -70,16 +76,16 @@ namespace poc.Google.Directions.Pages
             Postcode = HomeLocation.Postcode;
             UseBusTransitMode = true;
             UseTrainTransitMode = true;
+            RankPlacesByDistance = false;
 
-            await SearchForProviders();
-
-            await SearchForJourneys(HomeLocation, UseTrainTransitMode, UseBusTransitMode);
+            //await Search(HomeLocation, UseTrainTransitMode, UseBusTransitMode);
         }
 
         public async Task<IActionResult> OnPost(
             [FromForm] string postcode,
             bool useTrainTransitMode,
-            bool useBusTransitMode)
+            bool useBusTransitMode,
+            bool rankPlacesByDistance)
         {
             Postcode = postcode;
             Location location = null;
@@ -102,8 +108,7 @@ namespace poc.Google.Directions.Pages
 
                 if (ModelState.IsValid)
                 {
-                    await SearchForProviders();
-                    await SearchForJourneys(location, useTrainTransitMode, useBusTransitMode);
+                    await Search(location, useTrainTransitMode, useBusTransitMode, rankPlacesByDistance);
                 }
             }
 
@@ -167,66 +172,48 @@ namespace poc.Google.Directions.Pages
             return location;
         }
 
-        private async Task SearchForProviders()
-        {
-            Providers = (await _providerDataService.GetProviders())
-                .OrderBy(p => p.Name)
-                .ToList();
-        }
-
-        private async Task SearchForJourneys(Location location, bool useTrainTransitMode, bool useBusTransitMode)
+        private async Task Search(Location location, bool useTrainTransitMode, bool useBusTransitMode, bool rankPlacesByDistance)
         {
             Providers = (await _providerDataService.GetProviders())
                 .OrderBy(p => p.Name)
                 .ToList();
 
             Journeys = new Dictionary<string, Journey>();
+            PlacesList = new Dictionary<string, Places>();
 
             foreach (var provider in Providers)
             {
-                //Only call API for the first journey, until we know it works
-                //if (Journeys.Any())
-                //{
-                //    Journeys.Add(provider.Postcode, CreateFakeJourney());
-                //    continue;
-                //}
+                var providerLocation = provider.Location;
 
+                //TODO: Should link be part of journey?
+                provider.DirectionsLink = _magicLinkService.CreateDirectionsLink(location, providerLocation);
+
+                //TODO: Add transit modes to cache key
                 var cacheKey = CreateJourneyCacheKey(location.Postcode, provider.Postcode);
                 var journey = (Journey)null;
-//if (provider.Postcode == "B3 1JP")
-//{}
-//else
+                //if (provider.Postcode == "B3 1JP")
+                //{}
+                //else
                 //journey = _cacheService.Get<Journey>(cacheKey);
 
                 if (journey == null)
-                { 
+                {
                     journey = await _directionsService.GetDirections(
                         location,
-                        new Location
-                        {
-                            Postcode = provider.Postcode,
-                            Latitude = provider.Latitude,
-                            Longitude = provider.Longitude
-                        },
+                        providerLocation,
                         useTrainTransitMode,
                         useBusTransitMode);
                     _cacheService.Set(cacheKey, journey, TimeSpan.FromSeconds(CacheExpiryInSeconds));
                 }
 
                 Journeys.Add(provider.Postcode, journey);
+
+                //TODO: Cache places
+
+                var places = await _placesService.GetPlaces(providerLocation, useTrainTransitMode, useBusTransitMode, rankByDistance:rankPlacesByDistance);
+
+                PlacesList.Add(provider.Postcode, places);
             }
         }
-
-        private static Journey CreateFakeJourney() =>
-            new Journey
-            {
-                Distance = 12.0,
-                DistanceFromNearestBusStop = 1.03,
-                DistanceFromNearestTrainStop = 0.4,
-                Steps = new List<string>
-                {
-                    "Sample journey"
-                }
-            };
     }
 }

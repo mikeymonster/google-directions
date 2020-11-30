@@ -31,7 +31,7 @@ namespace poc.Google.Directions.Services
 
         public async Task<Journey> GetDirections(Location from, Location to, bool useTrainTransitMode = true, bool useBusTransitMode = true)
         {
-            if (string.IsNullOrWhiteSpace(_settings.GoogleApiKey)) return null;
+            if (string.IsNullOrWhiteSpace(_settings.GoogleDirectionsApiKey)) return null;
 
             var httpClient = _httpClientFactory.CreateClient(nameof(DirectionsService));
             httpClient.DefaultRequestHeaders.Accept.Clear();
@@ -68,7 +68,7 @@ namespace poc.Google.Directions.Services
                 uriBuilder.Append($"&transit_mode={transitModeBuilder}");
             }
 
-            uriBuilder.Append($"&key={_settings.GoogleApiKey}");
+            uriBuilder.Append($"&key={_settings.GoogleDirectionsApiKey}");
 
             var uri = new Uri(uriBuilder.ToString());
 
@@ -116,8 +116,7 @@ namespace poc.Google.Directions.Services
                 Steps = new List<string>(),
                 Routes = new List<Route>()
             };
-
-
+            
             //var routes = root.GetProperty("routes");
             foreach (var routeElement in jsonDoc.RootElement.GetProperty("routes").EnumerateArray())
             {
@@ -125,53 +124,71 @@ namespace poc.Google.Directions.Services
 
                 var route = new Route
                 {
-                    Summary = routeElement.GetProperty("summary").GetString(),
-                    Warnings = new List<string>(
-                        routeElement.GetProperty("warnings")
-                        .EnumerateArray()
-                        .Select(w =>
-                        {
-                            Debug.WriteLine(w.GetString());
-                            Debug.WriteLine((int)w.GetString()[44]);
-                            Debug.WriteLine($"{(int)w.GetString()[44]:X}");
-                            return w.GetString();
-                        })
-                        .ToList()),
+                    Summary = routeElement.SafeGetString("summary"),
+                    Warnings =
+                        routeElement.TryGetProperty("warnings", out var warnings)
+                        ? new List<string>(
+                            routeElement.GetProperty("warnings")
+                                    .EnumerateArray()
+                            .Select(w =>
+                            {
+                                //TODO: Sort out loading of incorrect characters here 
+                                Debug.WriteLine(w.GetString());
+                                Debug.WriteLine((int)w.GetString()[44]);
+                                Debug.WriteLine($"{(int)w.GetString()[44]:X}");
+                                return w.GetString();
+                            })
+                            .ToList())
+                    : new List<string>(),
                     Legs = new List<Leg>()
                 };
                 journey.Routes.Add(route);
 
                 foreach (var legElement in routeElement.GetProperty("legs").EnumerateArray())
                 {
+                    var hasLegDistance = legElement.TryGetProperty("distance", out var legDistanceElement);
+                    var hasLegDuration = legElement.TryGetProperty("duration", out var legDurationElement);
+
                     var leg = new Leg
                     {
-                        StartAddress = legElement.GetProperty("start_address").GetString(),
-                        EndAddress = legElement.GetProperty("end_address").GetString(),
-                        Distance = legElement.GetProperty("distance").GetProperty("value").GetInt32(),
-                        DistanceString = legElement.GetProperty("distance").GetProperty("text").GetString(),
-                        Duration = legElement.GetProperty("duration").GetProperty("value").GetInt32(),
-                        DurationString = legElement.GetProperty("duration").GetProperty("text").GetString(),
+                        StartAddress = legElement.SafeGetString("start_address"),
+                        EndAddress = legElement.SafeGetString("end_address"),
+                        Distance = hasLegDistance ? legDistanceElement.SafeGetInt32("value") : default,
+                        DistanceString = hasLegDistance ? legDistanceElement.SafeGetString("text") : default,
+                        Duration = hasLegDuration ? legDurationElement.SafeGetInt32("value") : default,
+                        DurationString = hasLegDuration ? legDurationElement.SafeGetString("text") : default,
                         Steps = new List<Step>()
                     };
                     route.Legs.Add(leg);
 
                     foreach (var stepElement in legElement.GetProperty("steps").EnumerateArray())
                     {
+                        var hasStepDistanceElement = stepElement.TryGetProperty("distance", out var stepDistanceElement);
+                        var hasStepDurationElement = stepElement.TryGetProperty("duration", out var stepDurationElement);
+
+                        var hasStepStartLocation = stepElement.TryGetProperty("start_location", out var stepStartLocationElement);
+                        var hasStepEndLocation = stepElement.TryGetProperty("end_location", out var stepEndLocationElement);
+
                         var step = new Step
                         {
-                            Distance = stepElement.GetProperty("distance").GetProperty("value").GetInt32(),
-                            DistanceString = stepElement.GetProperty("distance").GetProperty("text").GetString(),
-                            Duration = stepElement.GetProperty("duration").GetProperty("value").GetInt32(),
-                            DurationString = stepElement.GetProperty("duration").GetProperty("text").GetString(),
+                            Distance = hasStepDistanceElement ? stepDistanceElement.SafeGetInt32("value") : default,
+                            DistanceString = hasStepDistanceElement ? stepDistanceElement.SafeGetString("text") : default,
+                            Duration = hasStepDistanceElement ? stepDurationElement.SafeGetInt32("value") : default,
+                            DurationString = hasStepDistanceElement ? stepDurationElement.SafeGetString("text") : default,
 
-                            StartLatitude = stepElement.GetProperty("start_location").GetProperty("lat").GetDouble(),
-                            StartLongitude = stepElement.GetProperty("start_location").GetProperty("lng").GetDouble(),
+                            //StartLatitude = stepElement.GetProperty("start_location").GetProperty("lat").GetDouble(),
+                            //StartLongitude = stepElement.GetProperty("start_location").GetProperty("lng").GetDouble(),
 
-                            EndLatitude = stepElement.GetProperty("end_location").GetProperty("lat").GetDouble(),
-                            EndLongitude = stepElement.GetProperty("end_location").GetProperty("lng").GetDouble(),
+                            StartLatitude = hasStepStartLocation ? stepStartLocationElement.SafeGetDouble("lat") : default,
+                            StartLongitude = hasStepStartLocation ? stepStartLocationElement.SafeGetDouble("lng") : default,
 
-                            Instructions = stepElement.GetProperty("html_instructions").GetString(),
-                            TravelMode = stepElement.GetProperty("travel_mode").GetString(),
+                            EndLatitude = hasStepEndLocation ? stepEndLocationElement.SafeGetDouble("lat") : default,
+                            EndLongitude = hasStepEndLocation ? stepEndLocationElement.SafeGetDouble("lng") : default,
+                            //EndLatitude = stepElement.GetProperty("end_location").GetProperty("lat").GetDouble(),
+                            //EndLongitude = stepElement.GetProperty("end_location").GetProperty("lng").GetDouble(),
+
+                            Instructions = stepElement.SafeGetString("html_instructions"),
+                            TravelMode = stepElement.SafeGetString("travel_mode"),
 
                             Steps = new List<Step>()
                         };
@@ -200,7 +217,7 @@ namespace poc.Google.Directions.Services
                                     EndLongitude = innerStepElement.GetProperty("end_location").GetProperty("lng")
                                         .GetDouble(),
 
-                                    Instructions = innerStepElement.GetProperty("html_instructions").GetString(),
+                                    Instructions = innerStepElement.SafeGetString("html_instructions"),
 
                                     Steps = new List<Step>()
                                 });

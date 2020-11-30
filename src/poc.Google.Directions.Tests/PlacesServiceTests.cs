@@ -10,58 +10,55 @@ using Xunit;
 
 namespace poc.Google.Directions.Tests
 {
-    public class DirectionsServiceTests
+    public class PlacesServiceTests
     {
         private const string TestApiKey = "test_key";
         
         [Fact]
-        public void DirectionsService_Constructor_Guards_Against_Null_Parameters()
+        public void PlacesService_Constructor_Guards_Against_Null_Parameters()
         {
-            typeof(DirectionsService).ShouldNotAcceptNullOrBadConstructorArguments();
+            typeof(PlacesService).ShouldNotAcceptNullOrBadConstructorArguments();
         }
 
         [Fact]
-        public async void DirectionsService_Throws_Exception_For_Bad_Response()
+        public async void PlacesService_Throws_Exception_For_Bad_Response()
         {
             var queryUrl = "https://bad.url.googleapis.com/";
 
-            var service = new DirectionsServiceBuilder(
+            var service = new PlacesServiceBuilder(
                     queryUrl,
                     TestApiKey,
                     new DirectionsJsonBuilder())
                 .Build();
 
-            Func<Task> sutMethod = async () => { await service.GetDirections(LocationBuilder.FromLocation, LocationBuilder.ToLocation); };
+            Func<Task> sutMethod = async () => { await service.GetPlaces(LocationBuilder.FromLocation); };
             await sutMethod.Should().ThrowAsync<Exception>();
-
-            //converter.Invoking(c =>
-            //        c.ConvertBack("Anything", Arg.Any<Type>(), Arg.Any<object>(), Arg.Any<CultureInfo>()))
-            //    .Should().Throw<NotImplementedException>();
         }
 
+        
         [Fact]
-        public async void DirectionsService_Returns_Expected_Journey()
+        public async void PlacesService_Returns_Expected_Journey()
         {
             // ReSharper disable once StringLiteralTypo
             const string queryUrl =
                 "https://maps.googleapis.com/maps/api/directions/json?origin=52.400997,-1.508122&destination=52.409568,-1.792148&region=uk&mode=transit&transit_mode=train|bus";
-            var service = new DirectionsServiceBuilder(
+            var service = new PlacesServiceBuilder(
                     queryUrl,
                     TestApiKey,
                     new DirectionsJsonBuilder())
                 .Build();
 
-            var result = await service.GetDirections(LocationBuilder.FromLocation, LocationBuilder.ToLocation);
+            var result = await service.GetPlaces(LocationBuilder.FromLocation);
 
             result.Should().NotBeNull();
         }
 
         [Fact]
-        public async void DirectionsService_BuildJourneyFromJsonString_Returns_Raw_Json()
+        public async void PlacesService_BuildPlacesFromJson_Returns_Raw_Json()
         {
-            var service = new DirectionsServiceBuilder().Build();
+            var service = new PlacesServiceBuilder().Build();
 
-            var journey = await service.BuildJourneyFromJson(await new DirectionsJsonBuilder().BuildStream());
+            var journey = await service.BuildPlacesFromJson(await new DirectionsJsonBuilder().BuildStream());
 
             journey.Should().NotBeNull();
             //Not 
@@ -69,13 +66,14 @@ namespace poc.Google.Directions.Tests
         }
 
         [Fact]
-        public async void DirectionsService_BuildJourneyFromJsonString_Returns_Expected_Journey()
+        public async void PlacesService_BuildPlacesFromJson_Returns_Expected_Places()
         {
-            var service = new DirectionsServiceBuilder().Build();
-            var journey = await service.BuildJourneyFromJson(await new DirectionsJsonBuilder().BuildStream());
+            var service = new PlacesServiceBuilder().Build();
+            var journey = await service.BuildPlacesFromJson(await new DirectionsJsonBuilder().BuildStream());
 
             journey.Should().NotBeNull();
 
+            /*
             journey.Routes.Should().NotBeNullOrEmpty();
             journey.Routes.Count.Should().Be(1);
 
@@ -133,6 +131,7 @@ namespace poc.Google.Directions.Tests
             step.TransitDetails.Should().NotBeNull();
 
             //TODO: Verify transit details
+        */
 
         }
     }

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using poc.Google.Directions.Interfaces;
 using poc.Google.Directions.Models;
+// ReSharper disable StringLiteralTypo
 
 namespace poc.Google.Directions.Services
 {
@@ -36,8 +38,21 @@ namespace poc.Google.Directions.Services
                     Town = "Birmingham",
                     Longitude = -1.906807,
                     Latitude = 52.482263
+                },
+                new Provider
+                {
+                    Name = "Bicester School of Shopping",
+                    Postcode = "OX26 6WD",
+                    Town = "Bicester",
+                    Longitude = -1.1566167358815447,
+                    Latitude = 51.89217275852689,
                 }
-            } as IList<Provider>);
+            }
+                    .OrderBy(p => p.Name)
+                    .ThenBy(p => p.Postcode)
+                    .ToList()
+                as IList<Provider>
+            );
         }
     }
 }

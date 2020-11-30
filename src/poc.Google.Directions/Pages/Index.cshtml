@@ -13,19 +13,24 @@
     <form method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label asp-for="Postcode" class="control-label">Postcode</label>
-            <input asp-for="Postcode" class="form-control" placeholder="Enter a postcode" aria-label="Enter a postcode" />
-            <span asp-validation-for="Postcode" class="text-danger"></span>
+            <fieldset>
+                <label asp-for="Postcode" class="control-label">Postcode</label>
+                <input asp-for="Postcode" class="form-control" placeholder="Enter a postcode" aria-label="Enter a postcode" />
+                <span asp-validation-for="Postcode" class="text-danger"></span>
+            </fieldset>
         </div>
 
         <div class="form-group">
             <label asp-for="UseBusTransitMode" class="control-label">Train</label>
             <input type="checkbox" asp-for="UseTrainTransitMode">
+
+            <label asp-for="UseBusTransitMode" class="control-label">Bus</label>
+            <input type="checkbox" asp-for="UseBusTransitMode">
         </div>
 
         <div class="form-group">
-            <label asp-for="UseBusTransitMode" class="control-label">Bus</label>
-            <input type="checkbox" asp-for="UseBusTransitMode">
+            <label asp-for="RankPlacesByDistance" class="control-label">Rank places by distance</label>
+            <input type="checkbox" asp-for="RankPlacesByDistance">
         </div>
 
         <button id="search-button" type="submit">Search</button>
@@ -34,96 +39,125 @@
 </section>
 
 <section class="providers">
-
-    @foreach (var provider in Model.Providers)
+    @if(Model.Providers != null)
     {
-        var journey = Model.Journeys[provider.Postcode];
-        var distance = Math.Round(journey.Distance, 1);
-        var distanceFromBusStop = Math.Round(journey.DistanceFromNearestBusStop, 1);
-        var distanceFromTrainStop = Math.Round(journey.DistanceFromNearestTrainStop, 1);
+        @foreach (var provider in Model.Providers)
+        {
+            Journey journey = null;
+            Places places = null;
 
-        <article class="provider">
-            <section class="provider-info">
-                <header class="provider-info-header">
-                    <h3>@provider.Name</h3>
-                    <h4>POST CODE | Town</h4>
-                    <h4>@provider.Postcode | @provider.Town</h4>
-                </header>
+            Model.Journeys?.TryGetValue(provider.Postcode, out journey);
+            Model.PlacesList?.TryGetValue(provider.Postcode, out places);
 
-                <div class="journey-info">
-                    <p class="distance">@distance @(Math.Abs(distance - 1) < 0.1 ? "mile" : "miles") away</p>
-                    <div class="transport">
-                        <img src="~/images/transport.png" alt="" />
-                        <p class="transit-distance">@($"{distanceFromBusStop:0.#}") @(Math.Abs(distanceFromBusStop -1) < 0.1 ? "mile" : "miles")</p>
+            var distance = journey != null ? Math.Round(journey.Distance, 1) : 0;
+            var distanceFromBusStop = journey != null ? Math.Round(journey.DistanceFromNearestBusStop, 1) : 0;
+            var distanceFromTrainStop = journey != null ? Math.Round(journey.DistanceFromNearestTrainStop, 1) : 0;
+
+            var directionsLink = provider.DirectionsLink ?? "#";
+
+            <article class="provider">
+                <section class="provider-info">
+                    <header class="provider-info-header">
+                        <h3>@provider.Name</h3>
+                        <h4>POST CODE | Town</h4>
+                        <h4>@provider.Postcode | @provider.Town</h4>
+                    </header>
+
+                    <div class="journey-info">
+                        <p class="distance">@distance @(Math.Abs(distance - 1) < 0.1 ? "mile" : "miles") away</p>
+                        <div class="transport">
+                            <img src="~/images/transport.png" alt="" />
+                            <p class="transit-distance">@($"{distanceFromBusStop:0.#}") @(Math.Abs(distanceFromBusStop -1) < 0.1 ? "mile" : "miles")</p>
+                        </div>
+                        <p class="transit-description">from the nearest bus stop</p>
+
+                        <div class="transport">
+                            <img src="~/images/subway.png" alt="" />
+                            <p class="transit-distance">@($"{distanceFromTrainStop:0.#}") @(Math.Abs(distanceFromTrainStop - 1) < 0.1 ? "mile" : "miles")</p>
+                        </div>
+                        <p class="transit-description">from the nearest train station</p>
+                        <p class="transit-description"><a target="_blank" href="(@directionsLink">How do I get there?</a></p>
                     </div>
-                    <p class="transit-description">from the nearest bus stop</p>
+                </section>
 
-                    <div class="transport">
-                        <img src="~/images/subway.png" alt="" />
-                        <p class="transit-distance">@($"{distanceFromTrainStop:0.#}") @(Math.Abs(distanceFromTrainStop - 1) < 0.1 ? "mile" : "miles")</p>
-                    </div>
-                    <p class="transit-description">from the nearest train station</p>
-                </div>
-            </section>
-
-            <section class="journey-details">
-                <details open>
-                    <summary>Journey details:</summary>
-                    @if (journey.Routes != null && journey.Routes.Any())
-                    {
-                        <ul>
-                            @foreach (var route in journey.Routes)
+                @if (journey != null)
+                {
+                    <section class="journey-details">
+                        <details open>
+                            <summary>Journey details:</summary>
+                            @if (journey.Routes != null && journey.Routes.Any())
                             {
-                                <li>
-                                    <h3>Route</h3>
-                                    @if (!string.IsNullOrWhiteSpace(route.Summary))
+                                <ul>
+                                    @foreach (var route in journey.Routes)
                                     {
-                                        <p>@route.Summary</p>
+                                        <li>
+                                            <h3>Route</h3>
+                                            @if (!string.IsNullOrWhiteSpace(route.Summary))
+                                            {
+                                                <p>@route.Summary</p>
+                                            }
+                                            @foreach (var warning in route.Warnings)
+                                            {
+                                                <p class="warning"><strong>WARNING:</strong> @warning</p>
+                                            }
+                                            <ul>
+                                                @foreach (var leg in route.Legs)
+                                                {
+                                                    <li>
+                                                        <p>From <em>@leg.StartAddress</em></p>
+                                                        <p>to <em>@leg.EndAddress</em>: @leg.DistanceString @leg.Duration</p>
+                                                        <ul>
+                                                            @foreach (var step in leg.Steps)
+                                                            {
+                                                                <li class="step-description">
+                                                                    <p><strong>@step.TravelMode</strong> @step.DistanceString, @step.DurationString</p>
+                                                                    <p>@step.Instructions</p>
+                                                                    <p><strong>Start:</strong> @step.StartLatitude, @step.StartLongitude </p>
+                                                                    <p><strong>End:</strong> @step.EndLatitude, @step.EndLongitude</p>
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </li>
                                     }
-                                    @foreach (var warning in route.Warnings)
-                                    {
-                                        <p class="warning"><strong>WARNING:</strong> @warning</p>
-                                    }
-                                    <ul>
-                                        @foreach (var leg in route.Legs)
-                                        {
-                                            <li>
-                                                <p>From <em>@leg.StartAddress</em></p>
-                                                <p>to <em>@leg.EndAddress</em>: @leg.DistanceString @leg.Duration</p>
-                                                <ul>
-                                                    @foreach (var step in leg.Steps)
-                                                    {
-                                                        <li class="step-description">
-                                                            <p><strong>@step.TravelMode</strong> @step.DistanceString, @step.DurationString</p>
-                                                            <p>@step.Instructions</p>
-                                                            <p><strong>Start:</strong> @step.StartLatitude, @step.StartLongitude </p>
-                                                            <p><strong>End:</strong> @step.EndLatitude, @step.EndLongitude</p>
-                                                        </li>
-                                                    }
-                                                </ul>
-                                            </li>
-                                        }
-                                    </ul>
-                                </li>
+                                </ul>
                             }
-                        </ul>
-                    }
-                </details>
-            </section>
+                        </details>
 
-            <section class="journey-details">
-                <details>
-                    <summary>Raw json:</summary>
-                    <pre>
-                    <code>
-                        @journey.RawJson
-                    </code>
-                </pre>
-                </details>
-            </section>
-        </article>
+                        <details>
+                            <summary>Raw journey json:</summary>
+                            <pre>
+                            <code>
+                                    @journey.RawJson
+                                </code>
+                            </pre>
+                        </details>
+                    </section>
+                }
+
+                @if (places != null)
+                {
+                    <section class="journey-details">
+                        <details>
+                            <summary>Raw places json:</summary>
+                            <pre>
+                            <code>
+                                    @places.RawJson
+                                </code>
+                            </pre>
+                        </details>
+                    </section>
+                }
+            </article>
+        }
     }
-    <footer>
-        <img src="~/images/poweredbygoogle.png" alt="Powered by Google" class="google--logo" />
-    </footer>
+    
+    @if (Model.Journeys != null && Model.Journeys.Any())
+    {
+        <footer>
+            <img src="~/images/poweredbygoogle.png" alt="Powered by Google" class="google--logo"/>
+        </footer>
+    }
 </section>

@@ -7,18 +7,17 @@ using Wild.TestHelpers.HttpClient;
 
 namespace poc.Google.Directions.Tests.Builders
 {
-    public class DirectionsServiceBuilder
+    public class PlacesServiceBuilder
     {
-        private readonly DirectionsService _directionsService;
+        private readonly PlacesService _placesService;
 
         public ApiSettings CreateApiSettings(string apiKey = "test_key") 
             => new ApiSettings
             {
-                GoogleDirectionsApiKey = apiKey
-
+                GooglePlacesApiKey = apiKey
             };
 
-        public DirectionsServiceBuilder(
+        public PlacesServiceBuilder(
             IHttpClientFactory httpClientFactory = null,
             ApiSettings settings = null)
         {
@@ -26,10 +25,10 @@ namespace poc.Google.Directions.Tests.Builders
 
             httpClientFactory ??= Substitute.For<IHttpClientFactory>();
             
-            _directionsService = new DirectionsService(settings, httpClientFactory);
+            _placesService = new PlacesService(settings, httpClientFactory);
         }
 
-        public DirectionsServiceBuilder(
+        public PlacesServiceBuilder(
             string queryUri,
             string apiKey,
             DirectionsJsonBuilder dataBuilder,
@@ -39,14 +38,14 @@ namespace poc.Google.Directions.Tests.Builders
 
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
             httpClientFactory
-                .CreateClient(nameof(DirectionsService))
+                .CreateClient(nameof(PlacesService))
                 .Returns(new TestHttpClientFactory()
                     .CreateHttpClient(new Uri($"{queryUri}&key={apiKey}"),
                         dataBuilder.Build()));
 
-            _directionsService = new DirectionsService(settings, httpClientFactory);
+            _placesService = new PlacesService(settings, httpClientFactory);
         }
 
-        public DirectionsService Build() => _directionsService;
+        public PlacesService Build() => _placesService;
     }
 }
