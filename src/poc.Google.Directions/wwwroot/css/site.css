@@ -200,7 +200,7 @@ google--logo {
 
     .step-description p:first-child {
         margin-left: 0;
-}
+    }
 
 
 .journey-details ul {
@@ -224,3 +224,7 @@ google--logo {
                 margin-left: 60px;
                 color: blue;
             }
+
+.journey-details > p.vehicle-details {
+    background-color: darkorange;
+}

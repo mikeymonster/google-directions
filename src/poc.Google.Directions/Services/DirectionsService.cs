@@ -99,11 +99,7 @@ namespace poc.Google.Directions.Services
             //    WriteIndented = true
             //};
 
-            //JsonDocument jsonDoc;
-            //if (jsonStream != null)
             var jsonDoc = await JsonDocument.ParseAsync(jsonStream);
-            //else 
-            //var jsonDoc = JsonDocument.Parse(json);//, options);
 
             //var root = jsonDoc.RootElement;
 
@@ -116,8 +112,7 @@ namespace poc.Google.Directions.Services
                 Steps = new List<string>(),
                 Routes = new List<Route>()
             };
-            
-            //var routes = root.GetProperty("routes");
+
             foreach (var routeElement in jsonDoc.RootElement.GetProperty("routes").EnumerateArray())
             {
                 //Debug.WriteLine($"Route {routeElement.Name}");
@@ -127,9 +122,8 @@ namespace poc.Google.Directions.Services
                     Summary = routeElement.SafeGetString("summary"),
                     Warnings =
                         routeElement.TryGetProperty("warnings", out var warnings)
-                        ? new List<string>(
-                            routeElement.GetProperty("warnings")
-                                    .EnumerateArray()
+                        ? new List<string>(warnings
+                            .EnumerateArray()
                             .Select(w =>
                             {
                                 //TODO: Sort out loading of incorrect characters here 
@@ -176,16 +170,11 @@ namespace poc.Google.Directions.Services
                             Duration = hasStepDistanceElement ? stepDurationElement.SafeGetInt32("value") : default,
                             DurationString = hasStepDistanceElement ? stepDurationElement.SafeGetString("text") : default,
 
-                            //StartLatitude = stepElement.GetProperty("start_location").GetProperty("lat").GetDouble(),
-                            //StartLongitude = stepElement.GetProperty("start_location").GetProperty("lng").GetDouble(),
-
                             StartLatitude = hasStepStartLocation ? stepStartLocationElement.SafeGetDouble("lat") : default,
                             StartLongitude = hasStepStartLocation ? stepStartLocationElement.SafeGetDouble("lng") : default,
 
                             EndLatitude = hasStepEndLocation ? stepEndLocationElement.SafeGetDouble("lat") : default,
                             EndLongitude = hasStepEndLocation ? stepEndLocationElement.SafeGetDouble("lng") : default,
-                            //EndLatitude = stepElement.GetProperty("end_location").GetProperty("lat").GetDouble(),
-                            //EndLongitude = stepElement.GetProperty("end_location").GetProperty("lng").GetDouble(),
 
                             Instructions = stepElement.SafeGetString("html_instructions"),
                             TravelMode = stepElement.SafeGetString("travel_mode"),
@@ -204,18 +193,13 @@ namespace poc.Google.Directions.Services
                                     DistanceString = innerStepElement.GetProperty("distance").GetProperty("text")
                                         .GetString(),
                                     Duration = innerStepElement.GetProperty("duration").GetProperty("value").GetInt32(),
-                                    DurationString = innerStepElement.GetProperty("duration").GetProperty("text")
-                                        .GetString(),
+                                    DurationString = innerStepElement.GetProperty("duration").GetProperty("text").GetString(),
 
-                                    StartLatitude = innerStepElement.GetProperty("start_location").GetProperty("lat")
-                                        .GetDouble(),
-                                    StartLongitude = innerStepElement.GetProperty("start_location").GetProperty("lng")
-                                        .GetDouble(),
+                                    StartLatitude = innerStepElement.GetProperty("start_location").GetProperty("lat").GetDouble(),
+                                    StartLongitude = innerStepElement.GetProperty("start_location").GetProperty("lng").GetDouble(),
 
-                                    EndLatitude = innerStepElement.GetProperty("end_location").GetProperty("lat")
-                                        .GetDouble(),
-                                    EndLongitude = innerStepElement.GetProperty("end_location").GetProperty("lng")
-                                        .GetDouble(),
+                                    EndLatitude = innerStepElement.GetProperty("end_location").GetProperty("lat").GetDouble(),
+                                    EndLongitude = innerStepElement.GetProperty("end_location").GetProperty("lng").GetDouble(),
 
                                     Instructions = innerStepElement.SafeGetString("html_instructions"),
 
@@ -225,42 +209,43 @@ namespace poc.Google.Directions.Services
                                 if (innerStepElement.TryGetProperty("transit_details",
                                     out var innerTransitDetailsProperty))
                                 {
-
                                 }
-
                             }
                         }
 
-                        step.TransitDetails = new TransitDetails();
-
+                        var transitDetails = new TransitDetails();
+                        step.TransitDetails = transitDetails;
+                        
                         //TODO: Look at transit_details
                         if (stepElement.TryGetProperty("transit_details", out var transitDetailsProperty))
                         {
-                            if (transitDetailsProperty.TryGetProperty("line", out var line))
+                            transitDetails.NumStops = transitDetailsProperty.SafeGetInt32("num_stops");
+
+                            if (transitDetailsProperty.TryGetProperty("line", out var lineProperty))
                             {
-                                //var lineName = line.TryGetProperty("line", out var lineName)
+                                transitDetails.LineName = lineProperty.SafeGetString("name");
+                                transitDetails.LineShortName = lineProperty.SafeGetString("short_name");
+
+                                if (lineProperty.TryGetProperty("vehicle", out var vehicleProperty))
+                                {
+                                    transitDetails.LineVehicleName = vehicleProperty.SafeGetString("name");
+                                    transitDetails.LineVehicleType = vehicleProperty.SafeGetString("type");
+                                }
                             }
 
-                            //var line =
+                            if (transitDetailsProperty.TryGetProperty("arrival_stop", out var arrivalStopProperty))
+                            {
+                                transitDetails.ArrivalStopName = arrivalStopProperty.SafeGetString("name");
+                                transitDetails.ArrivalStopLatitude = arrivalStopProperty.GetProperty("location").SafeGetDouble("lat");
+                                transitDetails.ArrivalStopLongitude = arrivalStopProperty.GetProperty("location").SafeGetDouble("long");
+                            }
 
-                        //This is messy - need to break down the individual pieces
-                        //TODO: Add a helper that gets string using Try then returns GetString or null
-                        //      Same for double
-
-                        //step.TransitDetails = new TransitDetails
-                        //{
-                            //ArrivalStopName
-                            //ArrivalStopLatitude
-                            //ArrivalStopLongitude
-                            //DepartureStopName
-                            //DepartureStopLatitude
-                            //DepartureStopLongitude
-                            //    LineName = transitDetailsProperty.GetProperty("line_name").GetProperty("name")
-                            //LineShortName
-                            //LineVehicleName
-                            //LineVehicleType
-                            //NumStops =
-                        //};
+                            if (transitDetailsProperty.TryGetProperty("arrival_stop", out var departureStopProperty))
+                            {
+                                transitDetails.DepartureStopName = departureStopProperty.SafeGetString("name");
+                                transitDetails.DepartureStopLatitude = departureStopProperty.GetProperty("location").SafeGetDouble("lat");
+                                transitDetails.DepartureStopLongitude = departureStopProperty.GetProperty("location").SafeGetDouble("long");
+                            }
                         }
                     }
                 }

@@ -110,10 +110,22 @@
                                                             @foreach (var step in leg.Steps)
                                                             {
                                                                 <li class="step-description">
-                                                                    <p><strong>@step.TravelMode</strong> @step.DistanceString, @step.DurationString</p>
+                                                                    <p><strong>@step.TravelMode </strong>@step.DistanceString, @step.DurationString</p>
                                                                     <p>@step.Instructions</p>
-                                                                    <p><strong>Start:</strong> @step.StartLatitude, @step.StartLongitude </p>
-                                                                    <p><strong>End:</strong> @step.EndLatitude, @step.EndLongitude</p>
+                                                                    <p><strong>Start: </strong>@step.StartLatitude, @step.StartLongitude</p>
+                                                                    <p><strong>End: </strong>@step.EndLatitude, @step.EndLongitude</p>
+
+                                                                    @if (!string.IsNullOrWhiteSpace(step.TransitDetails.LineName))
+                                                                    {
+                                                                        <p><strong>Line: </strong>@step.TransitDetails.LineName (@step.TransitDetails.LineShortName)</p>
+                                                                        <p><strong>Departure stop: </strong>@step.TransitDetails.DepartureStopName - @step.TransitDetails.DepartureStopLatitude, @step.TransitDetails.DepartureStopLatitude</p>
+                                                                        <p><strong>Arrival stop: </strong>@step.TransitDetails.ArrivalStopName - @step.TransitDetails.ArrivalStopLatitude, @step.TransitDetails.ArrivalStopLatitude</p>
+                                                                    }
+
+                                                                    @if (!string.IsNullOrWhiteSpace(step.TransitDetails.LineVehicleType))
+                                                                    {
+                                                                        <p class="vehicle-details"><strong>Line: </strong>@step.TransitDetails.LineVehicleType (@step.TransitDetails.LineVehicleName)</p>
+                                                                    }
                                                                 </li>
                                                             }
                                                         </ul>
@@ -139,16 +151,40 @@
 
                 @if (places != null)
                 {
-                    <section class="journey-details">
-                        <details>
-                            <summary>Raw places json:</summary>
-                            <pre>
-                            <code>
-                                    @places.RawJson
-                                </code>
-                            </pre>
-                        </details>
-                    </section>
+            <section class="journey-details">
+                <details open>
+                    <summary>Places details:</summary>
+                    @if (places.PlaceList != null && places.PlaceList.Any())
+                    {
+                        <ul>
+                            @foreach (var place in places.PlaceList)
+                            {
+                                <li>
+                                    <h3>@place.Name</h3>
+                                    <p><strong>Location: </strong>@place.Latitude, @place.Longitude</p>
+                                    <ul>
+                                        @foreach (var placeType in place.Types)
+                                        {
+                                            <li>
+                                                <p>@placeType</p>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </details>
+
+                <details>
+                    <summary>Raw places json:</summary>
+                    <pre>
+                        <code>
+                            @places.RawJson
+                        </code>
+                    </pre>
+                </details>
+            </section>
                 }
             </article>
         }

@@ -49,17 +49,17 @@ namespace poc.Google.Directions.Models
 
     public class TransitDetails
     {
-        public string ArrivalStopName { get; init; }
-        public double ArrivalStopLatitude { get; init; }
-        public double ArrivalStopLongitude { get; init; }
-        public string DepartureStopName { get; init; }
-        public double DepartureStopLatitude { get; init; }
-        public double DepartureStopLongitude { get; init; }
-        public string LineName { get; init; }
-        public string LineShortName { get; init; }
-        public string LineVehicleName { get; init; }
-        public string LineVehicleType { get; init; }
-        public int NumStops { get; init; }
+        public string ArrivalStopName { get; set; }
+        public double ArrivalStopLatitude { get; set; }
+        public double ArrivalStopLongitude { get; set; }
+        public string DepartureStopName { get; set; }
+        public double DepartureStopLatitude { get; set; }
+        public double DepartureStopLongitude { get; set; }
+        public string LineName { get; set; }
+        public string LineShortName { get; set; }
+        public string LineVehicleName { get; set; }
+        public string LineVehicleType { get; set; }
+        public int NumStops { get; set; }
     }
 
     namespace GoogleClasses

@@ -31,7 +31,7 @@ namespace poc.Google.Directions.Tests.Builders
         public PlacesServiceBuilder(
             string queryUri,
             string apiKey,
-            DirectionsJsonBuilder dataBuilder,
+            PlacesJsonBuilder dataBuilder,
             ApiSettings settings = null)
         {
             settings ??= CreateApiSettings(apiKey);
