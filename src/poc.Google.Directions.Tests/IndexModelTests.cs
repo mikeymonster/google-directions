@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using NSubstitute;
-using poc.Google.Directions.Interfaces;
-using poc.Google.Directions.Pages;
-using poc.Google.Directions.Tests.Builders;
+﻿using poc.Google.Directions.Pages;
 using Wild.TestHelpers.Extensions;
 using Xunit;
 

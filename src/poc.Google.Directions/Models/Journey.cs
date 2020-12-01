@@ -4,9 +4,9 @@ namespace poc.Google.Directions.Models
 {
     public class Journey
     {
-        public double Distance { get; init; }
-        public double DistanceFromNearestBusStop { get; init; }
-        public double DistanceFromNearestTrainStop { get; init; }
+        public double Distance { get; set; }
+        public double DistanceFromNearestBusStop { get; set; }
+        public double DistanceFromNearestTrainStop { get; set; }
         public string RawJson { get; init; }
         public IList<string> Steps { get; init; }
         public IList<Route> Routes { get; init; }

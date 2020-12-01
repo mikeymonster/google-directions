@@ -1,8 +1,6 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using poc.Google.Directions.Models;
 using poc.Google.Directions.Services;
 using poc.Google.Directions.Tests.Builders;
 using Wild.TestHelpers.Extensions;

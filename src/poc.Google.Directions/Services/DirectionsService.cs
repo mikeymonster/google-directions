@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
 using poc.Google.Directions.Extensions;
@@ -53,6 +52,7 @@ namespace poc.Google.Directions.Services
             uriBuilder.Append($"origin={from.Latitude},{from.Longitude}");
             uriBuilder.Append($"&destination={to.Latitude},{to.Longitude}");
             uriBuilder.Append("&region=uk");
+            uriBuilder.Append("&alternatives=true");
             uriBuilder.Append("&mode=transit");
 
             var transitModeBuilder = new StringBuilder();
@@ -215,7 +215,7 @@ namespace poc.Google.Directions.Services
 
                         var transitDetails = new TransitDetails();
                         step.TransitDetails = transitDetails;
-                        
+
                         //TODO: Look at transit_details
                         if (stepElement.TryGetProperty("transit_details", out var transitDetailsProperty))
                         {
@@ -251,7 +251,78 @@ namespace poc.Google.Directions.Services
                 }
             }
 
+            //Calculate distances
+            CalculateJourneyDistances(journey);
+
             return journey;
+        }
+
+        private void CalculateJourneyDistances(Journey journey)
+        {
+            //TODO: Move to a TravelMode class
+            const string TravelModeTransit = "TRANSIT";
+
+            var distanceFromLastStop = 0;
+
+            journey.Distance = journey.Routes.Sum(route => route.Legs.Sum(leg => leg.Distance));
+
+            var distanceFound = false;
+            foreach (var route in journey.Routes)
+            {
+                foreach (var leg in route.Legs.Reverse())
+                {
+                    foreach (var step in leg.Steps.Reverse())
+                    {
+                        //Loop backwards, accumulating the distance until we get to the last transit stop
+                        if (step.TravelMode != TravelModeTransit)
+                        {
+                            distanceFromLastStop += step.Distance;
+                        }
+                        else
+                        {
+                            switch (step.TransitDetails.LineVehicleType)
+                            {
+                                /*
+                                    //https://developers.google.com/maps/documentation/directions/overview#VehicleType
+                                    RAIL	Rail.
+                                    METRO_RAIL	Light rail transit.
+                                    SUBWAY	Underground light rail.
+                                    TRAM	Above ground light rail.
+                                    MONORAIL	Monorail.
+                                    HEAVY_RAIL	Heavy rail.
+                                    COMMUTER_TRAIN	Commuter rail.
+                                    HIGH_SPEED_TRAIN	High speed train.
+                                    LONG_DISTANCE_TRAIN	Long distance train.
+                                    BUS	Bus.
+                                    INTERCITY_BUS	Intercity bus.
+                                    TROLLEYBUS	Trolleybus.
+                                    SHARE_TAXI	Share taxi is a kind of bus with the ability to drop off and pick up passengers anywhere on its route.
+                                    FERRY	Ferry.
+                                    CABLE_CAR	A vehicle that operates on a cable, usually on the ground. Aerial cable cars may be of the type GONDOLA_LIFT.
+                                    GONDOLA_LIFT	An aerial cable car.
+                                    FUNICULAR	A vehicle that is pulled up a steep incline by a cable. A Funicular typically consists of two cars, with each car acting as a counterweight for the other.
+                                    OTHER	All other vehicles will return this type.
+                                */
+                                case "BUS":
+                                case "INTERCITY_BUS":
+                                    journey.DistanceFromNearestBusStop = distanceFromLastStop;
+                                    return;
+                                case "RAIL":
+                                case "METRO_RAIL":
+                                case "SUBWAY":
+                                case "HIGH_SPEED_TRAIN":
+                                case "LONG_DISTANCE_TRAIN":
+                                case "HEAVY_RAIL":
+                                    journey.DistanceFromNearestTrainStop = distanceFromLastStop;
+                                    return;
+                                default:
+                                    Debug.WriteLine("Unexpected vehicle type ");
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -202,7 +202,6 @@ google--logo {
         margin-left: 0;
     }
 
-
 .journey-details ul {
     list-style-type: none;
     margin-top: 0.4em;
@@ -228,3 +227,40 @@ google--logo {
 .journey-details > p.vehicle-details {
     background-color: darkorange;
 }
+
+.place-details {
+    flex-direction: column;
+    -webkit-align-self: stretch;
+    -o-align-self: stretch;
+    align-self: stretch;
+    width: 100%;
+}
+
+    .place-details summary {
+        font-weight: lighter;
+        font-size: 16px;
+    }
+
+    .place-details details h3 {
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 0;
+    }
+
+    .place-details details p {
+        line-height: 1.4em;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+.place-details ul {
+    list-style-type: none;
+    margin-top: 0.4em;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.place-details li {
+    margin-left: 40px;
+}
+

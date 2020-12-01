@@ -1,3 +1,4 @@
+// ReSharper disable RedundantUsingDirective
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using poc.Google.Directions;

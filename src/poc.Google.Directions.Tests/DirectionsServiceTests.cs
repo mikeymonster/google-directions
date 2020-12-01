@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using poc.Google.Directions.Models;
 using poc.Google.Directions.Services;
 using poc.Google.Directions.Tests.Builders;
 using Wild.TestHelpers.Extensions;
@@ -23,7 +22,7 @@ namespace poc.Google.Directions.Tests
         [Fact]
         public async void DirectionsService_Throws_Exception_For_Bad_Response()
         {
-            var queryUrl = "https://bad.url.googleapis.com/";
+            const string queryUrl = "https://bad.url.googleapis.com/";
 
             var service = new DirectionsServiceBuilder(
                     queryUrl,

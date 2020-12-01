@@ -39,7 +39,7 @@
 </section>
 
 <section class="providers">
-    @if(Model.Providers != null)
+    @if (Model.Providers != null)
     {
         @foreach (var provider in Model.Providers)
         {
@@ -49,9 +49,9 @@
             Model.Journeys?.TryGetValue(provider.Postcode, out journey);
             Model.PlacesList?.TryGetValue(provider.Postcode, out places);
 
-            var distance = journey != null ? Math.Round(journey.Distance, 1) : 0;
-            var distanceFromBusStop = journey != null ? Math.Round(journey.DistanceFromNearestBusStop, 1) : 0;
-            var distanceFromTrainStop = journey != null ? Math.Round(journey.DistanceFromNearestTrainStop, 1) : 0;
+            var distance = journey != null ? Math.Round(journey.Distance * Conversion.MilesPerKilometer / 1000, 1) : 0;
+            var distanceFromBusStop = journey != null ? Math.Round(journey.DistanceFromNearestBusStop * Conversion.MilesPerKilometer / 1000, 1) : 0;
+            var distanceFromTrainStop = journey != null ? Math.Round(journey.DistanceFromNearestTrainStop * Conversion.MilesPerKilometer / 1000, 1) : 0;
 
             var directionsLink = provider.DirectionsLink ?? "#";
 
@@ -76,14 +76,14 @@
                             <p class="transit-distance">@($"{distanceFromTrainStop:0.#}") @(Math.Abs(distanceFromTrainStop - 1) < 0.1 ? "mile" : "miles")</p>
                         </div>
                         <p class="transit-description">from the nearest train station</p>
-                        <p class="transit-description"><a target="_blank" href="(@directionsLink">How do I get there?</a></p>
+                        <p class="transit-description"><a target="_blank" href="@directionsLink">How do I get there?</a></p>
                     </div>
                 </section>
 
                 @if (journey != null)
                 {
                     <section class="journey-details">
-                        <details open>
+                        <details>
                             <summary>Journey details:</summary>
                             @if (journey.Routes != null && journey.Routes.Any())
                             {
@@ -151,49 +151,49 @@
 
                 @if (places != null)
                 {
-            <section class="journey-details">
-                <details open>
-                    <summary>Places details:</summary>
-                    @if (places.PlaceList != null && places.PlaceList.Any())
-                    {
-                        <ul>
-                            @foreach (var place in places.PlaceList)
+                    <section class="place-details">
+                        <details> @*open>*@
+                            <summary>Places details:</summary>
+                            @if (places.PlaceList != null && places.PlaceList.Any())
                             {
-                                <li>
-                                    <h3>@place.Name</h3>
-                                    <p><strong>Location: </strong>@place.Latitude, @place.Longitude</p>
-                                    <ul>
-                                        @foreach (var placeType in place.Types)
-                                        {
-                                            <li>
-                                                <p>@placeType</p>
-                                            </li>
-                                        }
-                                    </ul>
-                                </li>
+                                <ul>
+                                    @foreach (var place in places.PlaceList)
+                                    {
+                                        <li>
+                                            <h3>@place.Name</h3>
+                                            <p><strong>Location: </strong>@place.Latitude, @place.Longitude</p>
+                                            <ul>
+                                                @foreach (var placeType in place.Types)
+                                                {
+                                                    <li>
+                                                        <p>@placeType</p>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+                                </ul>
                             }
-                        </ul>
-                    }
-                </details>
+                        </details>
 
-                <details>
-                    <summary>Raw places json:</summary>
-                    <pre>
-                        <code>
+                        <details>
+                            <summary>Raw places json:</summary>
+                            <pre>
+                            <code>
                             @places.RawJson
                         </code>
                     </pre>
-                </details>
-            </section>
+                        </details>
+                    </section>
                 }
             </article>
         }
     }
-    
+
     @if (Model.Journeys != null && Model.Journeys.Any())
     {
         <footer>
-            <img src="~/images/poweredbygoogle.png" alt="Powered by Google" class="google--logo"/>
+            <img src="~/images/poweredbygoogle.png" alt="Powered by Google" class="google--logo" />
         </footer>
     }
 </section>

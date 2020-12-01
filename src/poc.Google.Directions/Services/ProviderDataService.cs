@@ -45,13 +45,29 @@ namespace poc.Google.Directions.Services
                     Postcode = "OX26 6WD",
                     Town = "Bicester",
                     Longitude = -1.1566167358815447,
-                    Latitude = 51.89217275852689,
+                    Latitude = 51.89217275852689
+                },
+                new Provider
+                {
+                    Name = "Activate Learning - City of Oxford College",
+                    Postcode = "OX4 6HN",
+                    Town = "Oxford",
+                    Latitude= 51.720855,
+                    Longitude= -1.199541
+                },
+                new Provider
+                {
+                    Name = "Activate Learning - City of Oxford College",
+                    Postcode = "OX1 1SA",
+                    Town = "Oxford",
+                    Latitude =  51.749548,
+                    Longitude = -1.264524
                 }
             }
-                    .OrderBy(p => p.Name)
-                    .ThenBy(p => p.Postcode)
-                    .ToList()
-                as IList<Provider>
+            .OrderBy(p => p.Name)
+            .ThenBy(p => p.Postcode)
+            .ToList()
+             as IList<Provider>
             );
         }
     }

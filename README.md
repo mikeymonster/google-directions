@@ -6,6 +6,11 @@
  - https://developers.google.com/maps/documentation/directions/overview
 
 
+##### Directions API Billing 
+- https://developers.google.com/maps/documentation/directions/usage-and-billing
+- 0.005 USD per each (5.00 USD per 1000) - drops by 20% if over 100,000 queries a month
+- Advanced - 0.01 USD per each (10.00 USD per 1000)
+
 ### Places API
 
 - https://developers.google.com/places/web-service/search
@@ -14,7 +19,7 @@
 - https://jdunkerley.co.uk/2016/07/21/geocoding-and-finding-nearest-station-with-google-web-services/
 
 
-##### Billing 
+##### Places API Billing 
 - https://developers.google.com/maps/billing/gmp-billing#nearby-search
 - Price starts at 0.032 USD per call, then Basic Data is free
 - Fields - https://developers.google.com/places/web-service/place-data-fields#places-api-fields-support
@@ -35,5 +40,35 @@
 
 Directions API has a parameter to get just train and bus directions `transit_mode=train|bus
 
+- type of transport is just a suggestion. If there is only a bus, there's no point in asking for a train - it will just give you the bus again
+- the journey will vary during the day. We probably need to specify an ideal departure or arrival time (at double the cost)
+- lots of other types of transport:
+  >* RAIL	Rail.
+  >* METRO_RAIL	Light rail transit.
+  >* SUBWAY	Underground light rail.
+  >* TRAM	Above ground light rail.
+  >* MONORAIL	Monorail.
+  >* HEAVY_RAIL	Heavy rail.
+  >* COMMUTER_TRAIN	Commuter rail.
+  >* HIGH_SPEED_TRAIN	High speed train.
+  >* LONG_DISTANCE_TRAIN	Long distance train.
+  >* BUS	Bus.
+  >* INTERCITY_BUS	Intercity bus.
+  >* TROLLEYBUS	Trolleybus.
+  >* SHARE_TAXI	Share taxi is a kind of bus with the ability to drop off and pick up passengers anywhere on its route.
+  >* FERRY	Ferry.
+  >* CABLE_CAR	A vehicle that operates on a cable, usually on the ground. Aerial cable cars may be of the type GONDOLA_LIFT.
+  >* GONDOLA_LIFT	An aerial cable car.
+  >* FUNICULAR	A vehicle that is pulled up a steep incline by a cable. A Funicular typically consists of two cars, with each car acting as a counterweight for the other.
+  >* OTHER	All other vehicles will return this type.
+ 
 
+TODO: Convert all distances into miles
+Use alternative routes to find closes train and closest bus
+Search for arrival time
 
+remove places API
+
+? can we put a time on that link?
+
+Bing 

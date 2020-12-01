@@ -62,10 +62,10 @@ namespace poc.Google.Directions.Pages
             _providerDataService = providerDataService ?? throw new ArgumentNullException(nameof(providerDataService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-            if (!_preloaded)
-            {
-                Task.Run(PreloadAssets).Wait();
-            }
+            //if (!_preloaded)
+            //{
+            //    Task.Run(PreloadAssets).Wait();
+            //}
         }
 
         public async Task OnGet()
