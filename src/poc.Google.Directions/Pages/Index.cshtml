@@ -148,44 +148,6 @@
                         </details>
                     </section>
                 }
-
-                @if (places != null)
-                {
-                    <section class="place-details">
-                        <details> @*open>*@
-                            <summary>Places details:</summary>
-                            @if (places.PlaceList != null && places.PlaceList.Any())
-                            {
-                                <ul>
-                                    @foreach (var place in places.PlaceList)
-                                    {
-                                        <li>
-                                            <h3>@place.Name</h3>
-                                            <p><strong>Location: </strong>@place.Latitude, @place.Longitude</p>
-                                            <ul>
-                                                @foreach (var placeType in place.Types)
-                                                {
-                                                    <li>
-                                                        <p>@placeType</p>
-                                                    </li>
-                                                }
-                                            </ul>
-                                        </li>
-                                    }
-                                </ul>
-                            }
-                        </details>
-
-                        <details>
-                            <summary>Raw places json:</summary>
-                            <pre>
-                            <code>
-                            @places.RawJson
-                        </code>
-                    </pre>
-                        </details>
-                    </section>
-                }
             </article>
         }
     }

@@ -148,7 +148,9 @@ namespace poc.Google.Directions.Services
                         StartAddress = legElement.SafeGetString("start_address"),
                         EndAddress = legElement.SafeGetString("end_address"),
                         Distance = hasLegDistance ? legDistanceElement.SafeGetInt32("value") : default,
-                        DistanceString = hasLegDistance ? legDistanceElement.SafeGetString("text") : default,
+                        DistanceString = hasLegDistance ? //legDistanceElement.SafeGetString("text") 
+                            $"{(legDistanceElement.SafeGetInt32("value") * Conversion.MilesPerKilometer / 1000)} mi"
+                            : default,
                         Duration = hasLegDuration ? legDurationElement.SafeGetInt32("value") : default,
                         DurationString = hasLegDuration ? legDurationElement.SafeGetString("text") : default,
                         Steps = new List<Step>()
@@ -166,7 +168,10 @@ namespace poc.Google.Directions.Services
                         var step = new Step
                         {
                             Distance = hasStepDistanceElement ? stepDistanceElement.SafeGetInt32("value") : default,
-                            DistanceString = hasStepDistanceElement ? stepDistanceElement.SafeGetString("text") : default,
+                            DistanceString = hasStepDistanceElement ? //stepDistanceElement.SafeGetString("text") 
+                                $"{(stepDistanceElement.SafeGetInt32("value") * Conversion.MilesPerKilometer / 1000)} mi"
+                                : default,
+
                             Duration = hasStepDistanceElement ? stepDurationElement.SafeGetInt32("value") : default,
                             DurationString = hasStepDistanceElement ? stepDurationElement.SafeGetString("text") : default,
 
@@ -190,8 +195,8 @@ namespace poc.Google.Directions.Services
                                 step.Steps.Add(new Step
                                 {
                                     Distance = innerStepElement.GetProperty("distance").GetProperty("value").GetInt32(),
-                                    DistanceString = innerStepElement.GetProperty("distance").GetProperty("text")
-                                        .GetString(),
+                                    DistanceString = //innerStepElement.GetProperty("distance").GetProperty("text").GetString(),
+                                                    $"{(innerStepElement.GetProperty("distance").GetProperty("value").GetInt32() * Conversion.MilesPerKilometer / 1000)} mi",
                                     Duration = innerStepElement.GetProperty("duration").GetProperty("value").GetInt32(),
                                     DurationString = innerStepElement.GetProperty("duration").GetProperty("text").GetString(),
 
@@ -266,11 +271,18 @@ namespace poc.Google.Directions.Services
 
             journey.Distance = journey.Routes.Sum(route => route.Legs.Sum(leg => leg.Distance));
 
-            var distanceFound = false;
             foreach (var route in journey.Routes)
             {
+                if (route.Legs.Count > 1)
+                {
+                    Debug.WriteLine("Found multiple legs");
+                }
+
                 foreach (var leg in route.Legs.Reverse())
                 {
+                    var trainDistanceFoundForLeg = false;
+                    var busDistanceFoundForLeg = false;
+
                     foreach (var step in leg.Steps.Reverse())
                     {
                         //Loop backwards, accumulating the distance until we get to the last transit stop
@@ -305,16 +317,41 @@ namespace poc.Google.Directions.Services
                                 */
                                 case "BUS":
                                 case "INTERCITY_BUS":
-                                    journey.DistanceFromNearestBusStop = distanceFromLastStop;
-                                    return;
+                                    if (!busDistanceFoundForLeg)
+                                    {
+                                        if (journey.DistanceFromNearestBusStop == 0 || distanceFromLastStop < journey.DistanceFromNearestBusStop)
+                                        {
+                                            journey.DistanceFromNearestBusStop = distanceFromLastStop;
+                                        }
+
+                                        busDistanceFoundForLeg = true;
+                                    }
+
+                                    break;
+
                                 case "RAIL":
                                 case "METRO_RAIL":
                                 case "SUBWAY":
                                 case "HIGH_SPEED_TRAIN":
                                 case "LONG_DISTANCE_TRAIN":
                                 case "HEAVY_RAIL":
-                                    journey.DistanceFromNearestTrainStop = distanceFromLastStop;
-                                    return;
+
+                                    //different flags for route
+                                    //if we already found a distance for this route, don't do anything
+                                    //If new distance is less, set to the new distance
+                                    //flag that we have 
+                                    if (!trainDistanceFoundForLeg)
+                                    {
+                                        if (journey.DistanceFromNearestTrainStop == 0 || distanceFromLastStop < journey.DistanceFromNearestTrainStop)
+                                        {
+                                            journey.DistanceFromNearestTrainStop = distanceFromLastStop;
+                                        }
+
+                                        trainDistanceFoundForLeg = true;
+                                    }
+
+                                    break;
+
                                 default:
                                     Debug.WriteLine("Unexpected vehicle type ");
                                     break;

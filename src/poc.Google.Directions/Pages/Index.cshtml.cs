@@ -210,9 +210,8 @@ namespace poc.Google.Directions.Pages
 
                 //TODO: Cache places
 
-                var places = await _placesService.GetPlaces(providerLocation, useTrainTransitMode, useBusTransitMode, rankByDistance:rankPlacesByDistance);
-
-                PlacesList.Add(provider.Postcode, places);
+                //var places = await _placesService.GetPlaces(providerLocation, useTrainTransitMode, useBusTransitMode, rankByDistance:rankPlacesByDistance);
+                //PlacesList.Add(provider.Postcode, places);
             }
         }
     }
