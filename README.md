@@ -67,8 +67,11 @@ TODO: Convert all distances into miles
 Use alternative routes to find closes train and closest bus
 Search for arrival time
 
-remove places API
 
-? can we put a time on that link?
+### Bing/Azure API:
 
-Bing 
+   https://codematters.online/how-bing-maps-api-features-compare-to-google-maps/
+   Bing Routes API - https://docs.microsoft.com/en-us/rest/api/maps/route
+   https://azure.microsoft.com/en-gb/pricing/details/azure-maps/
+   https://www.infoworld.com/article/3346086/how-azure-maps-differs-from-bing-maps-for-developers.html
+ 
